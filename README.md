@@ -1,5 +1,11 @@
 # 画像ギャラリー開発用リポジトリ
 このリポジトリでは、Next.jsを用いて画像ギャラリーを開発しています。
+### 今回のプロジェクトで使う技術の勉強に役立つリンク集↓
+#### Next.js
+- [普段使いから始めるNext.js](https://zenn.dev/terrierscript/books/2020-09-next-js/viewer/0-0-intro)
+#### Git
+- [覚えておくと便利なGitコマンド](https://qiita.com/yoshie8423/items/8ba2b06e99c8749d6855)
+- [aliasの設定方法](https://qiita.com/chihiro/items/04813c707cc665de67c5)
 
 # 開発にあたって
 ## gitを使った共同開発
@@ -21,12 +27,18 @@ $ git add <ファイル名>
 ```
 $ git commit -m "コミットメッセージ"
 ```
-④自分が加えた変更をリモートリポジトリへpushする
+④自分が加えた変更をリモートリポジトリへpushする。<br>
+__【pushする前に確認すること】__<br>
+複数人で開発していくと自分が作業している間にリモートリポジトリのmainブランチがどんどん更新されていきます。<br>
+そのためpushする直前にローカルのmainブランチを更新して自分の作業ブランチに取り込む必要があります。<br>
+`$ git switch main`→`$ git pull`→`$ git switch <自分の作業ブランチ>`→`$ git merge main`<br>
+これで最新のmainブランチからブランチを切って作業したPRを作成することができます。
 ```
 $ git push origin <自分の作業ブランチ>
 ```
 `git push origin HEAD`とすると自分が現在作業しているブランチを指定することができる。<br>
 ⑤github上で作業ブランチ→mainブランチへのPRを作成する。<br>
+
 ⑥レビューが通ったらmergeする。
 
 ## ローカルサーバの立ち上げ方法
