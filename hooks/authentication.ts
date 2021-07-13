@@ -8,6 +8,18 @@ const userState = atom<User>({
 	default: null,
 });
 
+async function createUserIfNotFound(user: User) {
+	const userRef = firebase.firestore().collection("users").doc(user.uid);
+	const doc = await userRef.get();
+	if (doc.exists) {
+		return;
+	}
+
+	await userRef.set({
+		name: user.name,
+	});
+}
+
 export function useAuthentication() {
 	const [user, setUser] = useRecoilState(userState);
 
@@ -19,10 +31,12 @@ export function useAuthentication() {
 			if (firebaseUser) {
 				console.log("auth.tsnの");
 				console.log(firebaseUser);
-				setUser({
+				const loginUesr: User = {
 					uid: firebaseUser.uid,
 					name: firebaseUser.displayName,
-				});
+				};
+				setUser(loginUesr);
+				createUserIfNotFound(loginUesr);
 			} else {
 				// User is signed out.
 				setUser(null);

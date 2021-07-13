@@ -9,7 +9,7 @@ export default function Home() {
 		<div>
 			<Header />
 			<div>投稿一覧ページ</div>
-			<p>{user?.name} </p>
+			<p>ユーザの名前：{user?.name} </p>
 		</div>
 	);
 }
