@@ -1,8 +1,9 @@
 import firebase from "firebase/app";
 import { useEffect } from "react";
 import { atom, useRecoilState } from "recoil";
+import { User } from "models/User";
 
-const userState = atom({
+const userState = atom<User>({
 	key: "user",
 	default: null,
 });
@@ -14,9 +15,14 @@ export function useAuthentication() {
 		if (user !== null) {
 			return;
 		}
-		firebase.auth().onAuthStateChanged(function (user) {
-			if (user) {
-				console.log(user);
+		firebase.auth().onAuthStateChanged(function (firebaseUser) {
+			if (firebaseUser) {
+				console.log("auth.tsnの");
+				console.log(firebaseUser);
+				setUser({
+					uid: firebaseUser.uid,
+					name: firebaseUser.displayName,
+				});
 			} else {
 				// User is signed out.
 				setUser(null);
