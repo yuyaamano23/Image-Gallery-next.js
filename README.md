@@ -80,4 +80,4 @@ http://localhost:3000
 <img width="824" alt="スクリーンショット 2021-07-05 21 40 52" src="https://user-images.githubusercontent.com/58542696/124472989-bb015300-ddd9-11eb-98db-d80d9828915e.png">
 
 ## 次のプロジェクトで導入してみたい技術
-[TailWindCss](https://tailwindcss.com/)
+- バックエンドをLaravelでレプレイス
