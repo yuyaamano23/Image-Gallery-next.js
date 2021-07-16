@@ -1,7 +1,9 @@
-// @import "~bootstrap/scss/bootstrap";
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+// @import '~bootstrap/scss/bootstrap';
+
+// デフォルトのhtmlタグを使用したい場合はbaseをコメントアウトしなければ
+// @import '~tailwindcss/base';
+@import '~tailwindcss/components';
+@import '~tailwindcss/utilities';
 
 html,
 body {

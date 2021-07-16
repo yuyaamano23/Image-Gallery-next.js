@@ -13,9 +13,14 @@ export default function Home() {
                 {user ? (
                     <Logout />
                 ) : (
-                    <Link href="/login" passHref>
-                        <button>ログインする</button>
-                    </Link>
+                    <div>
+                        <Link href="/login" passHref>
+                            <button>ログインする</button>
+                        </Link>
+                        <button className="w-24 m-4 p-4 rounded-sm bg-yellow-500 text-center text-white">
+                            test
+                        </button>
+                    </div>
                 )}
             </div>
         </div>
