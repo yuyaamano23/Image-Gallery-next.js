@@ -4,7 +4,7 @@ import styles from 'styles/components/Header.module.scss';
 const Header: FC = () => {
     return (
         <div>
-            <div className="navbar navbar-light bg-info">
+            <div className="bg-yellow-500">
                 ここに共通ヘッダーを書いていくンゴ
             </div>
             <div className={styles.test}>Header.module.scssの確認</div>
