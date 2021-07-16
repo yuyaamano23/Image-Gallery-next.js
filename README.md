@@ -2,20 +2,9 @@
 
 このリポジトリでは、Next.js を用いて画像ギャラリーを開発しています。
 
-### 今回のプロジェクトで使う技術の勉強に役立つリンク集 ↓
+### 参考記事
+- [開発に関するwiki（とりあえずこれに目を通すと良いかも）](https://github.com/yuyaamano23/Image-Gallery-next.js/wiki/%E3%81%A8%E3%82%8A%E3%81%82%E3%81%88%E3%81%9A%E3%81%93%E3%81%93%E3%81%AB%E6%9B%B8%E3%81%8D%E8%BE%BC%E3%82%82%E3%81%86)
 
-#### Next.js
-
-- [普段使いから始める Next.js](https://zenn.dev/terrierscript/books/2020-09-next-js/viewer/0-0-intro)
-
-#### Git
-
-- [覚えておくと便利な Git コマンド](https://qiita.com/yoshie8423/items/8ba2b06e99c8749d6855)
-- [alias の設定方法](https://qiita.com/chihiro/items/04813c707cc665de67c5)
-
-#### Bootstrap
-
-- [Bootstrap のドキュメント](https://getbootstrap.jp/docs/5.0/getting-started/introduction/)
 
 # 開発にあたって
 
