@@ -16,7 +16,14 @@ const Header: FC = () => {
                 </button>
                 <div>
                     {user ? (
-                        <Logout />
+                        <div>
+                            <Logout />
+                            <button>
+                                <Link href={`/mypage/${user.uid}`}>
+                                    <a>マイページ</a>
+                                </Link>
+                            </button>
+                        </div>
                     ) : (
                         <Link href="/login" passHref>
                             <button>ログインする</button>

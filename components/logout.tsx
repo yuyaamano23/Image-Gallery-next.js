@@ -12,7 +12,7 @@ const logout = async () => {
 const Logout: FC = () => {
     return (
         <button onClick={logout} className="btn btn-danger">
-            Logout
+            ログアウト
         </button>
     );
 };
