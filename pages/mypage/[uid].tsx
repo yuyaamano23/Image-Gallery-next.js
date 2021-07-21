@@ -37,6 +37,6 @@ const UserMypage: FC = () => {
         loadUser();
     }, [query.uid]);
 
-    return <div>{user ? user.name : 'ロード中...'} </div>;
+    return <div>{user ? user.name : 'ロード中...'}さんのページ</div>;
 };
 export default UserMypage;
