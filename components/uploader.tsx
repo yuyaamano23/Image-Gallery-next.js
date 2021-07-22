@@ -34,6 +34,7 @@ const Uploader: FC = () => {
     };
 
     const { getRootProps, getInputProps } = useDropzone({
+        accept: ['image/*'],
         onDrop,
         onDropRejected,
     });
