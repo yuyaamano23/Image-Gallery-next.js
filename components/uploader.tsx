@@ -2,7 +2,7 @@ import React, { FC, useCallback, useEffect, useState } from 'react';
 import Image from 'next/image';
 import { useDropzone } from 'react-dropzone';
 import firebase from 'firebase/app';
-import 'firebase/storage';
+// import 'firebase/storage';
 import { storage } from 'lib/firebase';
 
 export type firebaseOnLoadProp = {
