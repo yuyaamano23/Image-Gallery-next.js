@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/alt-text */
 import React, { FC, useCallback, useEffect, useState } from 'react';
 import Image from 'next/image';
 import { useDropzone } from 'react-dropzone';
@@ -151,6 +150,7 @@ const Uploader: FC = () => {
                                             src={src}
                                             width={200}
                                             height={200}
+                                            alt={file.name}
                                         />
                                     )}
                                 </React.Fragment>
