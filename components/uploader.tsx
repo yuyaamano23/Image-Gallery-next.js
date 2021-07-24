@@ -2,8 +2,8 @@ import React, { FC, useCallback, useEffect, useState } from 'react';
 import Image from 'next/image';
 import { useDropzone } from 'react-dropzone';
 import firebase from 'firebase/app';
-// import 'firebase/storage';
 import { storage } from 'lib/firebase';
+import { useAuthentication } from 'hooks/authentication';
 
 export type firebaseOnLoadProp = {
     bytesTransferred: number;
@@ -16,6 +16,7 @@ const Uploader: FC = () => {
     const [myFiles, setMyFiles] = useState<File[]>([]);
     const [clickable, setClickable] = useState(false);
     const [src, setSrc] = useState('');
+    const { user } = useAuthentication();
 
     const onDrop = useCallback(async (acceptedFiles: File[]) => {
         if (!acceptedFiles[0]) return;
@@ -91,6 +92,17 @@ const Uploader: FC = () => {
                                 console.log(
                                     'ダウンロードしたURL' + downloadURL
                                 );
+                                // 画像のstorageへの保存と同時にstoreへ保存
+                                firebase
+                                    .firestore()
+                                    .collection('posts')
+                                    .doc()
+                                    .set({
+                                        downloadUrl: downloadURL,
+                                        createdAt: new Date(),
+                                        userId: user.uid,
+                                    });
+                                console.log('画像がdbに保存されました');
                             });
                     } catch (error) {
                         switch (error.code) {
