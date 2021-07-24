@@ -16,6 +16,7 @@ const Uploader: FC = () => {
     const [myFiles, setMyFiles] = useState<File[]>([]);
     const [clickable, setClickable] = useState(false);
     const [src, setSrc] = useState('');
+    const [title, setTitle] = useState<string>('default');
     const { user } = useAuthentication();
 
     const onDrop = useCallback(async (acceptedFiles: File[]) => {
@@ -101,6 +102,7 @@ const Uploader: FC = () => {
                                         downloadUrl: downloadURL,
                                         createdAt: new Date(),
                                         userId: user.uid,
+                                        title: title,
                                     });
                                 console.log('画像がdbに保存されました');
                             });
@@ -170,6 +172,15 @@ const Uploader: FC = () => {
                             ))}
                         </div>
                     )}
+                </div>
+                <div className="form-group">
+                    <label htmlFor="title">タイトル:</label>
+                    <input
+                        type="text"
+                        name="title"
+                        onChange={(e) => setTitle(e.target.value)}
+                        className="form-control"
+                    />
                 </div>
                 <button
                     disabled={!clickable}
