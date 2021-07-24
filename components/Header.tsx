@@ -8,7 +8,7 @@ import { User } from 'models/User';
 
 const Header: FC = () => {
     const { user } = useAuthentication();
-    const [NotRecoilUser, setNotRecoilUser] = useState<User>(null);
+    const [stateUser, setStateUser] = useState<User>(null);
 
     useEffect(() => {
         // 初回レンダリングを考慮するために user.uid に値がある場合だけ処理するように調整します。
@@ -29,7 +29,7 @@ const Header: FC = () => {
 
             const gotUser = doc.data() as User;
             gotUser.uid = doc.id;
-            setNotRecoilUser(gotUser);
+            setStateUser(gotUser);
         }
         // useEffectはasyncが使えないから関数を分けている;
         loadUser();
@@ -51,7 +51,7 @@ const Header: FC = () => {
                                     <a>マイページ</a>
                                 </Link>
                             </button>
-                            <div>ようこそ{NotRecoilUser?.name}さん</div>
+                            <div>ようこそ{stateUser?.name}さん</div>
                         </div>
                     ) : (
                         <Link href="/login" passHref>
