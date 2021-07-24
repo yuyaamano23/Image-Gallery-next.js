@@ -4,6 +4,7 @@
 
 ### 参考記事
 - [開発に関するwiki（とりあえずこれに目を通すと良いかも）](https://github.com/yuyaamano23/Image-Gallery-next.js/wiki/%E3%81%A8%E3%82%8A%E3%81%82%E3%81%88%E3%81%9A%E3%81%93%E3%81%93%E3%81%AB%E6%9B%B8%E3%81%8D%E8%BE%BC%E3%82%82%E3%81%86)
+- [ZennnのScraps](https://zenn.dev/yuyaamano23/scraps/efea136ab2063a)
 
 
 # 開発にあたって
