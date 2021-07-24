@@ -35,8 +35,6 @@ const Signup: FC = () => {
                                 Router.push('/');
                             });
                     }
-                    console.log('nameのなかみ');
-                    console.log(name);
                     firebase
                         .firestore()
                         .collection('users')
