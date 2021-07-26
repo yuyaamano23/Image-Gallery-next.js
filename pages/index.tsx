@@ -1,12 +1,15 @@
 import Head from 'next/head';
 import Image from 'next/image';
 import Uploader from 'components/uploader';
+import PostsIndex from 'components/postsIndex';
+import React from 'react';
 
 export default function Home() {
     return (
-        <div>
+        <React.Fragment>
             <div>投稿一覧ページです</div>
+            <PostsIndex />
             <Uploader />
-        </div>
+        </React.Fragment>
     );
 }

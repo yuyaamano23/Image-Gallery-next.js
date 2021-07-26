@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useEffect, useState } from 'react';
+import React, { FC, useCallback, useState } from 'react';
 import Image from 'next/image';
 import { useDropzone } from 'react-dropzone';
 import firebase from 'firebase/app';
@@ -144,7 +144,7 @@ const Uploader: FC = () => {
         };
     };
     return (
-        <div>
+        <React.Fragment>
             <div className="w-4/5 px-4 py-2 mx-auto my-4 text-center rounded-md">
                 <div
                     className="bg-gray-200 border-2 border-gray-500 rounded-md"
@@ -191,7 +191,7 @@ const Uploader: FC = () => {
                     UPLOAD
                 </button>
             </div>
-        </div>
+        </React.Fragment>
     );
 };
 export default Uploader;
