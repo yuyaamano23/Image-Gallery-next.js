@@ -32,7 +32,6 @@ const PostsIndex: FC = () => {
         <React.Fragment>
             {posts.map((post) => {
                 const parsedCreatedAt = new Date(post.createdAt.seconds * 1000);
-                console.log(parsedCreatedAt);
                 return (
                     <div key={post.id}>
                         <div className={styles.card}>
@@ -48,7 +47,11 @@ const PostsIndex: FC = () => {
                                 <h4>
                                     <b>{post.title}</b>
                                 </h4>
-                                <p>{parsedCreatedAt.toString()}</p>
+                                <p>
+                                    {parsedCreatedAt
+                                        .toLocaleString('ja-JP')
+                                        .toString()}
+                                </p>
                             </div>
                         </div>
                     </div>
