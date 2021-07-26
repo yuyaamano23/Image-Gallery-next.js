@@ -16,6 +16,8 @@ const PostsIndex: FC = () => {
             const querySnapshot = await firebase
                 .firestore()
                 .collection('posts')
+                // 登校日順に並び替え
+                .orderBy('createdAt', 'desc')
                 .get();
 
             const fetchPosts = querySnapshot.docs.map((doc) => {
