@@ -1,9 +1,9 @@
-import React, { FC, useCallback, useEffect, useState } from 'react';
+import React, { FC, useCallback, useState } from 'react';
 import Image from 'next/image';
 import { useDropzone } from 'react-dropzone';
 import firebase from 'firebase/app';
-// import 'firebase/storage';
 import { storage } from 'lib/firebase';
+import { useAuthentication } from 'hooks/authentication';
 
 export type firebaseOnLoadProp = {
     bytesTransferred: number;
@@ -16,6 +16,8 @@ const Uploader: FC = () => {
     const [myFiles, setMyFiles] = useState<File[]>([]);
     const [clickable, setClickable] = useState(false);
     const [src, setSrc] = useState('');
+    const [title, setTitle] = useState<string>('default');
+    const { user } = useAuthentication();
 
     const onDrop = useCallback(async (acceptedFiles: File[]) => {
         if (!acceptedFiles[0]) return;
@@ -91,6 +93,18 @@ const Uploader: FC = () => {
                                 console.log(
                                     'ダウンロードしたURL' + downloadURL
                                 );
+                                // 画像のstorageへの保存と同時にstoreへ保存
+                                firebase
+                                    .firestore()
+                                    .collection('posts')
+                                    .doc()
+                                    .set({
+                                        downloadUrl: downloadURL,
+                                        createdAt: new Date(),
+                                        userId: user.uid,
+                                        title: title,
+                                    });
+                                console.log('画像がdbに保存されました');
                             });
                     } catch (error) {
                         switch (error.code) {
@@ -130,7 +144,7 @@ const Uploader: FC = () => {
         };
     };
     return (
-        <div>
+        <React.Fragment>
             <div className="w-4/5 px-4 py-2 mx-auto my-4 text-center rounded-md">
                 <div
                     className="bg-gray-200 border-2 border-gray-500 rounded-md"
@@ -159,6 +173,15 @@ const Uploader: FC = () => {
                         </div>
                     )}
                 </div>
+                <div className="form-group">
+                    <label htmlFor="title">タイトル:</label>
+                    <input
+                        type="text"
+                        name="title"
+                        onChange={(e) => setTitle(e.target.value)}
+                        className="form-control"
+                    />
+                </div>
                 <button
                     disabled={!clickable}
                     type="submit"
@@ -168,7 +191,7 @@ const Uploader: FC = () => {
                     UPLOAD
                 </button>
             </div>
-        </div>
+        </React.Fragment>
     );
 };
 export default Uploader;
