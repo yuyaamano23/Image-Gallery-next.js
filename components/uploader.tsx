@@ -38,6 +38,9 @@ const Uploader: FC = () => {
     const initialRef = React.useRef();
     const finalRef = React.useRef();
 
+    // recoil
+    const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
+
     const onDrop = useCallback(async (acceptedFiles: File[]) => {
         if (!acceptedFiles[0]) return;
 
@@ -164,15 +167,18 @@ const Uploader: FC = () => {
     };
     return (
         <React.Fragment>
-            <Button onClick={onOpen} bgColor="tomato">
-                Open Modal
+            <Button
+                onClick={() => setModalIsOpen(!modalIsOpen)}
+                bgColor="tomato"
+            >
+                open modal
             </Button>
 
             <Modal
                 initialFocusRef={initialRef}
                 finalFocusRef={finalRef}
-                isOpen={isOpen}
-                onClose={onClose}
+                isOpen={modalIsOpen}
+                onClose={() => setModalIsOpen(!modalIsOpen)}
             >
                 <ModalOverlay />
                 <ModalContent>
