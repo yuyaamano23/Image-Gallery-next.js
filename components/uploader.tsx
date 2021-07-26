@@ -34,7 +34,6 @@ const Uploader: FC = () => {
     const { user } = useAuthentication();
 
     // chakraのmodal
-    const { isOpen, onOpen, onClose } = useDisclosure();
     const initialRef = React.useRef();
     const finalRef = React.useRef();
 
@@ -127,6 +126,7 @@ const Uploader: FC = () => {
                                         title: title,
                                     });
                                 console.log('画像がdbに保存されました');
+                                window.location.reload();
                             });
                     } catch (error) {
                         switch (error.code) {
