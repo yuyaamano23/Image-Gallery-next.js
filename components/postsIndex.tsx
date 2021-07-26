@@ -1,13 +1,9 @@
 import React, { FC, useEffect, useState } from 'react';
 import firebase from 'firebase/app';
 import Image from 'next/image';
-
-interface Post {
-    id: string;
-    downloadUrl: string;
-    title: string;
-    createdAt: string;
-}
+import { Post } from 'models/Post';
+import styles from 'styles/components/postsIndex.module.scss';
+import Link from 'next/link';
 
 const PostsIndex: FC = () => {
     const [posts, setPosts] = useState<Post[]>([]);
@@ -23,6 +19,7 @@ const PostsIndex: FC = () => {
             const fetchPosts = querySnapshot.docs.map((doc) => {
                 const fetchPost = doc.data() as Post;
                 fetchPost.id = doc.id;
+
                 return fetchPost;
             });
             console.log(fetchPosts);
@@ -34,18 +31,40 @@ const PostsIndex: FC = () => {
 
     return (
         <React.Fragment>
-            {posts.map((post) => (
-                <div key={post.id}>
-                    <p>タイトル：{post.title}</p>
-                    <Image
-                        src={`${post.downloadUrl}`}
-                        width={200}
-                        height={200}
-                        objectFit="contain"
-                        alt={`${post.title}`}
-                    />
-                </div>
-            ))}
+            {posts.map((post) => {
+                const parsedCreatedAt = new Date(post.createdAt.seconds * 1000);
+                return (
+                    <Link
+                        href={`/postDetail/${post.id}`}
+                        key={post.id}
+                        passHref
+                    >
+                        <div>
+                            <div className={styles.card}>
+                                <Image
+                                    src={`${post.downloadUrl}`}
+                                    // この数字を大きくする分には比率は崩れなさそう
+                                    width={1000}
+                                    height={1000}
+                                    objectFit="contain"
+                                    alt={`${post.title}`}
+                                    className={styles.img}
+                                />
+                                <div className={styles.container}>
+                                    <h4>
+                                        <b>{post.title}</b>
+                                    </h4>
+                                    <p>
+                                        {parsedCreatedAt
+                                            .toLocaleString('ja-JP')
+                                            .toString()}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </Link>
+                );
+            })}
         </React.Fragment>
     );
 };

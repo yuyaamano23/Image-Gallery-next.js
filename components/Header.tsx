@@ -60,7 +60,6 @@ const Header: FC = () => {
                     )}
                 </div>
             </div>
-            <div className={styles.test}>Header.module.scssの確認</div>
         </div>
     );
 };
