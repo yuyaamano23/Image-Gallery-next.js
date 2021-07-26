@@ -18,6 +18,7 @@ const PostsIndex: FC = () => {
             const fetchPosts = querySnapshot.docs.map((doc) => {
                 const fetchPost = doc.data() as Post;
                 fetchPost.id = doc.id;
+
                 return fetchPost;
             });
             console.log(fetchPosts);
@@ -29,26 +30,30 @@ const PostsIndex: FC = () => {
 
     return (
         <React.Fragment>
-            {posts.map((post) => (
-                <div key={post.id}>
-                    <div className={styles.card}>
-                        <Image
-                            src={`${post.downloadUrl}`}
-                            width={200}
-                            height={200}
-                            objectFit="contain"
-                            alt={`${post.title}`}
-                            className={styles.img}
-                        />
-                        <div className={styles.container}>
-                            <h4>
-                                <b>{post.title}</b>
-                            </h4>
-                            {/* <p>{post}</p> */}
+            {posts.map((post) => {
+                const parsedCreatedAt = new Date(post.createdAt.seconds * 1000);
+                console.log(parsedCreatedAt);
+                return (
+                    <div key={post.id}>
+                        <div className={styles.card}>
+                            <Image
+                                src={`${post.downloadUrl}`}
+                                width={200}
+                                height={200}
+                                objectFit="contain"
+                                alt={`${post.title}`}
+                                className={styles.img}
+                            />
+                            <div className={styles.container}>
+                                <h4>
+                                    <b>{post.title}</b>
+                                </h4>
+                                <p>{parsedCreatedAt.toString()}</p>
+                            </div>
                         </div>
                     </div>
-                </div>
-            ))}
+                );
+            })}
         </React.Fragment>
     );
 };
