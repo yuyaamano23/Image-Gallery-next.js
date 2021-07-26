@@ -5,6 +5,7 @@ import Logout from 'components/logout';
 import Link from 'next/link';
 import firebase from 'firebase/app';
 import { User } from 'models/User';
+import { Button } from '@chakra-ui/react';
 
 const Header: FC = () => {
     const { user } = useAuthentication();
@@ -38,8 +39,10 @@ const Header: FC = () => {
         <div>
             <div className="bg-red-500">
                 <button>
-                    <Link href="/">
-                        <a>投稿一覧ページへ</a>
+                    <Link href="/" passHref>
+                        <Button>
+                            <a>投稿一覧ページへ</a>
+                        </Button>
                     </Link>
                 </button>
                 <div>
@@ -47,15 +50,17 @@ const Header: FC = () => {
                         <div>
                             <Logout />
                             <button>
-                                <Link href={`/mypage/${user.uid}`}>
-                                    <a>マイページ</a>
+                                <Link href={`/mypage/${user.uid}`} passHref>
+                                    <Button>
+                                        <a>マイページ</a>
+                                    </Button>
                                 </Link>
                             </button>
                             <div>ようこそ{stateUser?.name}さん</div>
                         </div>
                     ) : (
                         <Link href="/login" passHref>
-                            <button>ログインする</button>
+                            <Button>ログインする</Button>
                         </Link>
                     )}
                 </div>
