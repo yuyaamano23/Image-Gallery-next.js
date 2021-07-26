@@ -13,13 +13,11 @@ const logout = async () => {
 
 const Logout: FC = () => {
     return (
-        <button onClick={logout} className="btn btn-danger">
-            <Link href="/" passHref>
-                <Button>
-                    <a>ログアウト</a>
-                </Button>
-            </Link>
-        </button>
+        <Link href="/" passHref>
+            <Button onClick={logout}>
+                <a>ログアウト</a>
+            </Button>
+        </Link>
     );
 };
 export default Logout;

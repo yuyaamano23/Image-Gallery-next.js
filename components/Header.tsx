@@ -38,24 +38,20 @@ const Header: FC = () => {
     return (
         <div>
             <div className="bg-red-500">
-                <button>
-                    <Link href="/" passHref>
-                        <Button>
-                            <a>投稿一覧ページへ</a>
-                        </Button>
-                    </Link>
-                </button>
+                <Link href="/" passHref>
+                    <Button>
+                        <a>投稿一覧ページへ</a>
+                    </Button>
+                </Link>
                 <div>
                     {user ? (
                         <div>
                             <Logout />
-                            <button>
-                                <Link href={`/mypage/${user.uid}`} passHref>
-                                    <Button>
-                                        <a>マイページ</a>
-                                    </Button>
-                                </Link>
-                            </button>
+                            <Link href={`/mypage/${user.uid}`} passHref>
+                                <Button>
+                                    <a>マイページ</a>
+                                </Button>
+                            </Link>
                             <div>ようこそ{stateUser?.name}さん</div>
                         </div>
                     ) : (
