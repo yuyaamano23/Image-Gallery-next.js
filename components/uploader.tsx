@@ -171,6 +171,13 @@ const Uploader: FC = () => {
             <Button
                 onClick={() => setModalIsOpen(!modalIsOpen)}
                 bgColor="tomato"
+                style={{
+                    position: 'fixed',
+                    right: '50px',
+                    bottom: '50px',
+                    transition: '1s',
+                    opacity: '0.7',
+                }}
             >
                 open modal
             </Button>
