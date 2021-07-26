@@ -2,6 +2,7 @@ import React, { FC, useEffect, useState } from 'react';
 import firebase from 'firebase/app';
 import Image from 'next/image';
 import { Post } from 'models/Post';
+import styles from 'styles/components/postsIndex.module.scss';
 
 const PostsIndex: FC = () => {
     const [posts, setPosts] = useState<Post[]>([]);
@@ -30,14 +31,22 @@ const PostsIndex: FC = () => {
         <React.Fragment>
             {posts.map((post) => (
                 <div key={post.id}>
-                    <p>タイトル：{post.title}</p>
-                    <Image
-                        src={`${post.downloadUrl}`}
-                        width={200}
-                        height={200}
-                        objectFit="contain"
-                        alt={`${post.title}`}
-                    />
+                    <div className={styles.card}>
+                        <Image
+                            src={`${post.downloadUrl}`}
+                            width={200}
+                            height={200}
+                            objectFit="contain"
+                            alt={`${post.title}`}
+                            className={styles.img}
+                        />
+                        <div className={styles.container}>
+                            <h4>
+                                <b>{post.title}</b>
+                            </h4>
+                            {/* <p>{post}</p> */}
+                        </div>
+                    </div>
                 </div>
             ))}
         </React.Fragment>
