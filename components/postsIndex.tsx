@@ -34,35 +34,33 @@ const PostsIndex: FC = () => {
             {posts.map((post) => {
                 const parsedCreatedAt = new Date(post.createdAt.seconds * 1000);
                 return (
-                    <Link
-                        href={`/postDetail/${post.id}`}
-                        key={post.id}
-                        passHref
-                    >
-                        <div>
-                            <div className={styles.card}>
-                                <Image
-                                    src={`${post.downloadUrl}`}
-                                    // この数字を大きくする分には比率は崩れなさそう
-                                    width={1000}
-                                    height={1000}
-                                    objectFit="contain"
-                                    alt={`${post.title}`}
-                                    className={styles.img}
-                                />
-                                <div className={styles.container}>
-                                    <h4>
-                                        <b>{post.title}</b>
-                                    </h4>
-                                    <p>
-                                        {parsedCreatedAt
-                                            .toLocaleString('ja-JP')
-                                            .toString()}
-                                    </p>
+                    <div className={styles.link} key={post.id}>
+                        <Link href={`/postDetail/${post.id}`} passHref>
+                            <div>
+                                <div className={styles.card}>
+                                    <Image
+                                        src={`${post.downloadUrl}`}
+                                        // この数字を大きくする分には比率は崩れなさそう
+                                        width={1000}
+                                        height={1000}
+                                        objectFit="contain"
+                                        alt={`${post.title}`}
+                                        className={styles.img}
+                                    />
+                                    <div className={styles.container}>
+                                        <h4>
+                                            <b>{post.title}</b>
+                                        </h4>
+                                        <p>
+                                            {parsedCreatedAt
+                                                .toLocaleString('ja-JP')
+                                                .toString()}
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </Link>
+                        </Link>
+                    </div>
                 );
             })}
         </React.Fragment>
