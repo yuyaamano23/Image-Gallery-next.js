@@ -22,7 +22,6 @@ const PostsIndex: FC = () => {
 
                 return fetchPost;
             });
-            console.log(fetchPosts);
             setPosts(fetchPosts);
         }
         // useEffectはasyncが使えないから関数を分けている;
