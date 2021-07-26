@@ -1,5 +1,6 @@
 import React, { FC, useEffect, useState } from 'react';
 import firebase from 'firebase/app';
+import Image from 'next/image';
 
 interface Post {
     id: string;
@@ -32,10 +33,15 @@ const PostsIndex: FC = () => {
     return (
         <React.Fragment>
             {posts.map((post) => (
-                // kyeはpostDoc.idnにしたい
-                <div key={post.createdAt}>
-                    <p>fetchpost↓</p>
-                    <p>{post.title}</p>
+                <div key={post.id}>
+                    <p>タイトル：{post.title}</p>
+                    <Image
+                        src={`${post.downloadUrl}`}
+                        width={200}
+                        height={200}
+                        objectFit="contain"
+                        alt={`${post.title}`}
+                    />
                 </div>
             ))}
         </React.Fragment>
