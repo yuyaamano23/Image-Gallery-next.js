@@ -149,6 +149,7 @@ const Uploader: FC = () => {
         } catch (error) {
             console.log('エラーキャッチ', error);
         }
+        setSrc('');
     };
 
     const handlePreview = (files: any) => {
@@ -185,71 +186,67 @@ const Uploader: FC = () => {
                     <ModalHeader>Create your account</ModalHeader>
                     <ModalCloseButton />
                     <ModalBody pb={6}>
+                        <div
+                            className="bg-gray-200 border-2 border-gray-500 rounded-md"
+                            style={{ height: '350px' }}
+                            {...getRootProps()}
+                        >
+                            {/* この中をタップすれば画像を選択できる */}
+                            <input
+                                {...getInputProps()}
+                                style={{ height: '40px' }}
+                            />
+                            {myFiles.length === 0 ? (
+                                <p className="py-4 text-center">
+                                    画像を選択またはドラッグ＆ドロップできます
+                                </p>
+                            ) : (
+                                <div>
+                                    {myFiles.map((file: File) => (
+                                        <div
+                                            key={file.name}
+                                            className="text-center"
+                                        >
+                                            {src && (
+                                                <Image
+                                                    src={src}
+                                                    width={200}
+                                                    height={200}
+                                                    objectFit="contain"
+                                                    alt={file.name}
+                                                />
+                                            )}
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
                         <FormControl>
-                            <FormLabel>First name</FormLabel>
-                            <Input ref={initialRef} placeholder="First name" />
-                        </FormControl>
-
-                        <FormControl mt={4}>
-                            <FormLabel>Last name</FormLabel>
-                            <Input placeholder="Last name" />
+                            <FormLabel>タイトル：</FormLabel>
+                            <Input
+                                onChange={(e) => setTitle(e.target.value)}
+                                ref={initialRef}
+                                placeholder="title"
+                            />
                         </FormControl>
                     </ModalBody>
 
                     <ModalFooter>
-                        <Button colorScheme="blue" mr={3}>
-                            Save
+                        <Button
+                            colorScheme="blue"
+                            mr={3}
+                            disabled={!clickable}
+                            onClick={() => handleUpload(myFiles)}
+                            type="submit"
+                        >
+                            Upload
                         </Button>
-                        <Button onClick={onClose}>Cancel</Button>
+                        <Button onClick={() => setModalIsOpen(!modalIsOpen)}>
+                            Cancel
+                        </Button>
                     </ModalFooter>
                 </ModalContent>
             </Modal>
-            <div className="w-4/5 px-4 py-2 mx-auto my-4 text-center rounded-md">
-                <div
-                    className="bg-gray-200 border-2 border-gray-500 rounded-md"
-                    {...getRootProps()}
-                >
-                    {/* この中をタップすれば画像を選択できる */}
-                    <input {...getInputProps()} />
-                    {myFiles.length === 0 ? (
-                        <p className="py-4">
-                            画像を選択またはドラッグ＆ドロップできます
-                        </p>
-                    ) : (
-                        <div>
-                            {myFiles.map((file: File) => (
-                                <React.Fragment key={file.name}>
-                                    {src && (
-                                        <Image
-                                            src={src}
-                                            width={200}
-                                            height={200}
-                                            alt={file.name}
-                                        />
-                                    )}
-                                </React.Fragment>
-                            ))}
-                        </div>
-                    )}
-                </div>
-                <div className="form-group">
-                    <label htmlFor="title">タイトル:</label>
-                    <input
-                        type="text"
-                        name="title"
-                        onChange={(e) => setTitle(e.target.value)}
-                        className="form-control"
-                    />
-                </div>
-                <button
-                    disabled={!clickable}
-                    type="submit"
-                    className="px-4 py-2 my-4 bg-gray-200 rounded-md"
-                    onClick={() => handleUpload(myFiles)}
-                >
-                    UPLOAD
-                </button>
-            </div>
         </React.Fragment>
     );
 };
