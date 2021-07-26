@@ -1,13 +1,7 @@
 import React, { FC, useEffect, useState } from 'react';
 import firebase from 'firebase/app';
 import Image from 'next/image';
-
-interface Post {
-    id: string;
-    downloadUrl: string;
-    title: string;
-    createdAt: string;
-}
+import { Post } from 'models/Post';
 
 const PostsIndex: FC = () => {
     const [posts, setPosts] = useState<Post[]>([]);
