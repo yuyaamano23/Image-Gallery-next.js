@@ -1,6 +1,7 @@
 import React, { FC } from 'react';
 import firebase from 'firebase/app';
 import Link from 'next/link';
+import { Button } from '@chakra-ui/react';
 
 const logout = async () => {
     try {
@@ -12,11 +13,11 @@ const logout = async () => {
 
 const Logout: FC = () => {
     return (
-        <button onClick={logout} className="btn btn-danger">
-            <Link href="/">
+        <Link href="/" passHref>
+            <Button onClick={logout}>
                 <a>ログアウト</a>
-            </Link>
-        </button>
+            </Button>
+        </Link>
     );
 };
 export default Logout;
