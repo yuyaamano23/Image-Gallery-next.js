@@ -42,6 +42,7 @@ const PostDetail: FC = () => {
 
     return (
         <div>
+            画像詳細ページです
             {post ? (
                 <div className={styles.card}>
                     <Image
