@@ -95,6 +95,7 @@ const UserMypage: FC = () => {
                                                 .toLocaleString('ja-JP')
                                                 .toString()}
                                         </p>
+                                        <p>投稿者:{user.name}</p>
                                     </div>
                                 </div>
                             </div>
