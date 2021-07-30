@@ -18,10 +18,32 @@ const PostsIndex: FC = () => {
 
             const fetchPosts = querySnapshot.docs.map((doc) => {
                 const fetchPost = doc.data() as Post;
+                console.log('これで参照型からuserIdとってこれる');
+                console.log(doc.data().userId.id);
+                console.log('これはどう？');
+                console.log(fetchPost.userId.id);
+
                 fetchPost.id = doc.id;
+                fetchPost.authorId = doc.data().userId.id;
 
                 return fetchPost;
             });
+
+            // mapの中で非同期関数を呼ぶ,こんな感じでPromise.all()で囲むと全部取れます。
+            // 紐づいたauthorNameを取得したい。
+            await Promise.all(
+                fetchPosts.map(async (i) => {
+                    const fetchUser = await firebase
+                        .firestore()
+                        .collection('users')
+                        .doc(i.authorId)
+                        .get();
+
+                    i.authorName = fetchUser.data().name;
+                    return;
+                })
+            );
+
             setPosts(fetchPosts);
         }
         // useEffectはasyncが使えないから関数を分けている;
@@ -55,6 +77,7 @@ const PostsIndex: FC = () => {
                                                 .toLocaleString('ja-JP')
                                                 .toString()}
                                         </p>
+                                        <p>投稿者:{post.authorName}</p>
                                     </div>
                                 </div>
                             </div>

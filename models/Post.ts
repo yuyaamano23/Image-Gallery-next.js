@@ -3,4 +3,6 @@ export interface Post {
     downloadUrl: string;
     title: string;
     createdAt: any;
+    authorName: string;
+    authorId: string;
 }
