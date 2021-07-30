@@ -114,7 +114,11 @@ const Uploader: FC = () => {
                                 console.log(
                                     'ダウンロードしたURL' + downloadURL
                                 );
-                                // 画像のstorageへの保存と同時にstoreへ保存
+                                // 画像のstorageへの保存と同時にuserIdのref型をstoreへ保存
+                                const userRef = firebase
+                                    .firestore()
+                                    .collection('users')
+                                    .doc(user.uid);
                                 firebase
                                     .firestore()
                                     .collection('posts')
@@ -122,11 +126,10 @@ const Uploader: FC = () => {
                                     .set({
                                         downloadUrl: downloadURL,
                                         createdAt: new Date(),
-                                        userId: user.uid,
+                                        userId: userRef,
                                         title: title,
                                     });
                                 console.log('画像がdbに保存されました');
-                                window.location.reload();
                             });
                     } catch (error) {
                         switch (error.code) {

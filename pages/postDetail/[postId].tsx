@@ -34,6 +34,14 @@ const PostDetail: FC = () => {
             const gotPost = doc.data() as Post;
             gotPost.id = doc.id;
             gotPost.createdAt = new Date(gotPost.createdAt.seconds * 1000);
+            // 紐づいたauthorNameを取得したい。
+            const fetchUser = await firebase
+                .firestore()
+                .collection('users')
+                .doc(doc.data().userId.id)
+                .get();
+            gotPost.authorName = fetchUser.data().name;
+
             setPost(gotPost);
         }
         // useEffectはasyncが使えないから関数を分けている;
@@ -42,6 +50,7 @@ const PostDetail: FC = () => {
 
     return (
         <div>
+            画像詳細ページです
             {post ? (
                 <div className={styles.card}>
                     <Image
@@ -60,6 +69,7 @@ const PostDetail: FC = () => {
                         <p>
                             {post.createdAt.toLocaleString('ja-JP').toString()}
                         </p>
+                        <p>投稿者:{post.authorName}</p>
                     </div>
                 </div>
             ) : (
