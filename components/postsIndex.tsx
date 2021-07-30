@@ -18,10 +18,6 @@ const PostsIndex: FC = () => {
 
             const fetchPosts = querySnapshot.docs.map((doc) => {
                 const fetchPost = doc.data() as Post;
-                console.log('これで参照型からuserIdとってこれる');
-                console.log(doc.data().userId.id);
-                console.log('これはどう？');
-                console.log(fetchPost.userId.id);
 
                 fetchPost.id = doc.id;
                 fetchPost.authorId = doc.data().userId.id;
