@@ -4,9 +4,13 @@ import Image from 'next/image';
 import { Post } from 'models/Post';
 import styles from 'styles/components/postsIndex.module.scss';
 import Link from 'next/link';
+import { Button } from '@chakra-ui/react';
+import { RepeatIcon } from '@chakra-ui/icons';
 
 const PostsIndex: FC = () => {
     const [posts, setPosts] = useState<Post[]>([]);
+    const [needsReload, setNeedsReload] = useState<boolean>(false);
+
     useEffect(() => {
         async function loadPosts() {
             const querySnapshot = await firebase
@@ -45,9 +49,19 @@ const PostsIndex: FC = () => {
         // useEffectはasyncが使えないから関数を分けている;
         loadPosts();
     }, []);
+    console.log('postIndexの', needsReload);
 
     return (
         <React.Fragment>
+            <Button
+                onClick={() => {
+                    location.reload();
+                    setNeedsReload(!needsReload);
+                }}
+            >
+                <RepeatIcon w={6} h={6} color="red.500" />
+            </Button>
+
             {posts.map((post) => {
                 const parsedCreatedAt = new Date(post.createdAt.seconds * 1000);
                 return (
