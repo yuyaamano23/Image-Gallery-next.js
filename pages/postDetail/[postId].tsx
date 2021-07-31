@@ -8,6 +8,7 @@ import Image from 'next/image';
 import { Textarea, Text, Button } from '@chakra-ui/react';
 import { useAuthentication } from 'hooks/authentication';
 import { AddIcon, ChatIcon } from '@chakra-ui/icons';
+import LikeButton from 'components/likeButton';
 
 type Query = {
     postId: string;
@@ -138,6 +139,7 @@ const PostDetail: FC = () => {
                             </p>
                             <p>投稿者:{post.authorName}</p>
                         </div>
+                        <LikeButton />
                     </div>
                     <div>
                         <Text mb="8px">【コメント一覧】</Text>
