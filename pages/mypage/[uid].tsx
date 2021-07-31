@@ -53,7 +53,6 @@ const UserMypage: FC = () => {
                 .where('userId', '==', userRef)
                 .orderBy('createdAt', 'desc')
                 .get();
-
             const fetchPosts = querySnapshot.docs.map((doc) => {
                 const fetchPost = doc.data() as Post;
                 fetchPost.id = doc.id;

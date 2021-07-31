@@ -9,9 +9,8 @@ export default function Home() {
     return (
         <React.Fragment>
             <Box>
-                <chakra.h1 color="tomato">Hello, World!!</chakra.h1>
+                <chakra.h1>投稿一覧ページ</chakra.h1>
             </Box>
-            <div>投稿一覧ページです</div>
             <PostsIndex />
             <Uploader />
         </React.Fragment>

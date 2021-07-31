@@ -17,7 +17,9 @@ import {
     FormControl,
     FormLabel,
     Input,
+    Tooltip,
 } from '@chakra-ui/react';
+import { AddIcon } from '@chakra-ui/icons';
 
 export type firebaseOnLoadProp = {
     bytesTransferred: number;
@@ -171,19 +173,48 @@ const Uploader: FC = () => {
     };
     return (
         <React.Fragment>
-            <Button
-                onClick={() => setModalIsOpen(!modalIsOpen)}
-                bgColor="tomato"
-                style={{
-                    position: 'fixed',
-                    right: '50px',
-                    bottom: '50px',
-                    transition: '1s',
-                    opacity: '0.7',
-                }}
-            >
-                open modal
-            </Button>
+            {user ? (
+                <Tooltip hasArrow label="投稿する" placement="top">
+                    <Button
+                        onClick={() => setModalIsOpen(!modalIsOpen)}
+                        bgColor="tomato"
+                        style={{
+                            position: 'fixed',
+                            width: '55px',
+                            height: '55px',
+                            right: '50px',
+                            bottom: '50px',
+                            transition: '0.25s',
+                            opacity: '0.7',
+                            borderRadius: '50%',
+                        }}
+                    >
+                        <AddIcon w={6} h={6} />
+                    </Button>
+                </Tooltip>
+            ) : (
+                <Tooltip
+                    hasArrow
+                    label="投稿にはログインが必要です"
+                    placement="top"
+                >
+                    <Button
+                        bgColor="tomato"
+                        style={{
+                            position: 'fixed',
+                            width: '55px',
+                            height: '55px',
+                            right: '50px',
+                            bottom: '50px',
+                            transition: '0.25s',
+                            opacity: '0.7',
+                            borderRadius: '50%',
+                        }}
+                    >
+                        <AddIcon w={6} h={6} />
+                    </Button>
+                </Tooltip>
+            )}
 
             <Modal
                 initialFocusRef={initialRef}

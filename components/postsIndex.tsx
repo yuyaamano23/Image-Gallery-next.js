@@ -9,7 +9,6 @@ import { RepeatIcon } from '@chakra-ui/icons';
 
 const PostsIndex: FC = () => {
     const [posts, setPosts] = useState<Post[]>([]);
-    const [needsReload, setNeedsReload] = useState<boolean>(false);
 
     useEffect(() => {
         async function loadPosts() {
@@ -49,14 +48,12 @@ const PostsIndex: FC = () => {
         // useEffectはasyncが使えないから関数を分けている;
         loadPosts();
     }, []);
-    console.log('postIndexの', needsReload);
 
     return (
         <React.Fragment>
             <Button
                 onClick={() => {
                     location.reload();
-                    setNeedsReload(!needsReload);
                 }}
             >
                 <RepeatIcon w={6} h={6} color="red.500" />
