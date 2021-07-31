@@ -7,7 +7,7 @@ import styles from 'styles/pages/postId.module.scss';
 import Image from 'next/image';
 import { Textarea, Text, Button } from '@chakra-ui/react';
 import { useAuthentication } from 'hooks/authentication';
-import { AddIcon } from '@chakra-ui/icons';
+import { AddIcon, ChatIcon } from '@chakra-ui/icons';
 
 type Query = {
     postId: string;
@@ -150,6 +150,7 @@ const PostDetail: FC = () => {
                                     className={styles.comment}
                                     key={comment.id}
                                 >
+                                    <ChatIcon w={6} h={6} />
                                     <p>{comment.body}</p>
                                     <p>
                                         {parsedCreatedAt
