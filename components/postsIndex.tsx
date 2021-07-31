@@ -49,7 +49,6 @@ const PostsIndex: FC = () => {
         // useEffectはasyncが使えないから関数を分けている;
         loadPosts();
     }, []);
-    console.log('postIndexの', needsReload);
 
     return (
         <React.Fragment>

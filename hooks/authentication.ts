@@ -25,7 +25,6 @@ export function useAuthentication() {
             } else {
                 // User is signed out.
                 setUser(null);
-                console.log('set null');
             }
         });
     }, []);
