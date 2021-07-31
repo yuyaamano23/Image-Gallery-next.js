@@ -173,28 +173,48 @@ const Uploader: FC = () => {
     };
     return (
         <React.Fragment>
-            <Tooltip
-                hasArrow
-                label={user ? '投稿する' : '投稿にはログインが必要です'}
-                placement="top"
-            >
-                <Button
-                    onClick={() => setModalIsOpen(!modalIsOpen)}
-                    bgColor="tomato"
-                    style={{
-                        position: 'fixed',
-                        width: '55px',
-                        height: '55px',
-                        right: '50px',
-                        bottom: '50px',
-                        transition: '0.25s',
-                        opacity: '0.7',
-                        borderRadius: '50%',
-                    }}
+            {user ? (
+                <Tooltip hasArrow label="投稿する" placement="top">
+                    <Button
+                        onClick={() => setModalIsOpen(!modalIsOpen)}
+                        bgColor="tomato"
+                        style={{
+                            position: 'fixed',
+                            width: '55px',
+                            height: '55px',
+                            right: '50px',
+                            bottom: '50px',
+                            transition: '0.25s',
+                            opacity: '0.7',
+                            borderRadius: '50%',
+                        }}
+                    >
+                        <AddIcon w={6} h={6} />
+                    </Button>
+                </Tooltip>
+            ) : (
+                <Tooltip
+                    hasArrow
+                    label="投稿にはログインが必要です"
+                    placement="top"
                 >
-                    <AddIcon w={6} h={6} />
-                </Button>
-            </Tooltip>
+                    <Button
+                        bgColor="tomato"
+                        style={{
+                            position: 'fixed',
+                            width: '55px',
+                            height: '55px',
+                            right: '50px',
+                            bottom: '50px',
+                            transition: '0.25s',
+                            opacity: '0.7',
+                            borderRadius: '50%',
+                        }}
+                    >
+                        <AddIcon w={6} h={6} />
+                    </Button>
+                </Tooltip>
+            )}
 
             <Modal
                 initialFocusRef={initialRef}
