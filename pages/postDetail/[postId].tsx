@@ -4,15 +4,26 @@ import { useRouter } from 'next/router';
 import firebase from 'firebase/app';
 import styles from 'styles/components/postsIndex.module.scss';
 import Image from 'next/image';
+import { Textarea, Text, Button } from '@chakra-ui/react';
+import { useAuthentication } from 'hooks/authentication';
+import { AddIcon } from '@chakra-ui/icons';
 
 type Query = {
     postId: string;
 };
 
 const PostDetail: FC = () => {
+    const { user } = useAuthentication();
     const [post, setPost] = useState<Post>(null);
     const router = useRouter();
     const query = router.query as Query;
+
+    let [value, setValue] = React.useState('');
+
+    let handleInputChange = (e) => {
+        let inputValue = e.target.value;
+        setValue(inputValue);
+    };
 
     useEffect(() => {
         // 初回レンダリングを考慮するために query に値がある場合だけ処理するように調整します。
@@ -48,34 +59,89 @@ const PostDetail: FC = () => {
         loadPost();
     }, [query.postId]);
 
+    const createComment = (e) => {
+        e.preventDefault();
+        try {
+            // userIdのref型をstoreへ保存
+            const userRef = firebase
+                .firestore()
+                .collection('users')
+                .doc(user.uid);
+
+            // postIdのref型をstoreへ保存
+            const postRef = firebase
+                .firestore()
+                .collection('posts')
+                .doc(post.id);
+
+            firebase.firestore().collection('comments').doc().set({
+                body: value,
+                createdAt: new Date(),
+                userId: userRef,
+                postId: postRef,
+            });
+
+            setValue('');
+            console.log('コメントを追加しました');
+        } catch (err) {
+            console.log(err.message);
+        }
+    };
+
     return (
-        <div>
-            画像詳細ページです
+        <React.Fragment>
             {post ? (
-                <div className={styles.card}>
-                    <Image
-                        src={`${post.downloadUrl}`}
-                        // この数字を大きくする分には比率は崩れなさそう
-                        width={1000}
-                        height={1000}
-                        objectFit="contain"
-                        alt={`${post.title}`}
-                        className={styles.img}
-                    />
-                    <div className={styles.container}>
-                        <h4>
-                            <b>{post.title}</b>
-                        </h4>
-                        <p>
-                            {post.createdAt.toLocaleString('ja-JP').toString()}
-                        </p>
-                        <p>投稿者:{post.authorName}</p>
+                <div>
+                    画像詳細ページです
+                    <div className={styles.card}>
+                        <Image
+                            src={`${post.downloadUrl}`}
+                            // この数字を大きくする分には比率は崩れなさそう
+                            width={1000}
+                            height={1000}
+                            objectFit="contain"
+                            alt={`${post.title}`}
+                            className={styles.img}
+                        />
+                        <div className={styles.container}>
+                            <h4>
+                                <b>{post.title}</b>
+                            </h4>
+                            <p>
+                                {post.createdAt
+                                    .toLocaleString('ja-JP')
+                                    .toString()}
+                            </p>
+                            <p>投稿者:{post.authorName}</p>
+                        </div>
+                    </div>
+                    <div>
+                        <Text mb="8px">コメント一覧</Text>
+                    </div>
+                    <div>
+                        <Text mb="8px">コメントを投稿する{value}</Text>
+                        <Textarea
+                            value={value}
+                            onChange={handleInputChange}
+                            placeholder="くそみてぃな写真ですね"
+                            size="sm"
+                        />
+                        <Button
+                            onClick={createComment}
+                            bgColor="tomato"
+                            style={{
+                                opacity: '0.7',
+                            }}
+                        >
+                            <AddIcon w={3} h={3} />
+                            追加する
+                        </Button>
                     </div>
                 </div>
             ) : (
                 'ロード中...'
             )}
-        </div>
+        </React.Fragment>
     );
 };
 export default PostDetail;
