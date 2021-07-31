@@ -1,8 +1,9 @@
 import React, { FC, useEffect, useState } from 'react';
 import { Post } from 'models/Post';
+import { Comment } from 'models/Comment';
 import { useRouter } from 'next/router';
 import firebase from 'firebase/app';
-import styles from 'styles/components/postsIndex.module.scss';
+import styles from 'styles/pages/postId.module.scss';
 import Image from 'next/image';
 import { Textarea, Text, Button } from '@chakra-ui/react';
 import { useAuthentication } from 'hooks/authentication';
@@ -15,6 +16,7 @@ type Query = {
 const PostDetail: FC = () => {
     const { user } = useAuthentication();
     const [post, setPost] = useState<Post>(null);
+    const [comments, setComments] = useState<Comment[]>([]);
     const router = useRouter();
     const query = router.query as Query;
 
@@ -55,8 +57,30 @@ const PostDetail: FC = () => {
 
             setPost(gotPost);
         }
+        async function loadComments() {
+            const postRef = firebase
+                .firestore()
+                .collection('posts')
+                .doc(query.postId);
+
+            const querySnapshot = await firebase
+                .firestore()
+                .collection('comments')
+                .where('postId', '==', postRef)
+                .orderBy('createdAt', 'desc')
+                .get();
+
+            const fetchComments = querySnapshot.docs.map((doc) => {
+                const fetchComment = doc.data() as Comment;
+                fetchComment.id = doc.id;
+
+                return fetchComment;
+            });
+            setComments(fetchComments);
+        }
         // useEffectはasyncが使えないから関数を分けている;
         loadPost();
+        loadComments();
     }, [query.postId]);
 
     const createComment = (e) => {
@@ -116,7 +140,25 @@ const PostDetail: FC = () => {
                         </div>
                     </div>
                     <div>
-                        <Text mb="8px">コメント一覧</Text>
+                        <Text mb="8px">【コメント一覧】</Text>
+                        {comments.map((comment) => {
+                            const parsedCreatedAt = new Date(
+                                comment.createdAt.seconds * 1000
+                            );
+                            return (
+                                <div
+                                    className={styles.comment}
+                                    key={comment.id}
+                                >
+                                    <p>{comment.body}</p>
+                                    <p>
+                                        {parsedCreatedAt
+                                            .toLocaleString('ja-JP')
+                                            .toString()}
+                                    </p>
+                                </div>
+                            );
+                        })}
                     </div>
                     <div>
                         <Text mb="8px">コメントを投稿する{value}</Text>
@@ -125,6 +167,7 @@ const PostDetail: FC = () => {
                             onChange={handleInputChange}
                             placeholder="くそみてぃな写真ですね"
                             size="sm"
+                            style={{ width: '500px' }}
                         />
                         <Button
                             onClick={createComment}
@@ -133,7 +176,6 @@ const PostDetail: FC = () => {
                                 opacity: '0.7',
                             }}
                         >
-                            <AddIcon w={3} h={3} />
                             追加する
                         </Button>
                     </div>
