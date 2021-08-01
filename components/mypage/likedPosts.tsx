@@ -52,7 +52,7 @@ const LikedPosts: FC<LikedPostsProps> = ({ user }) => {
                 })
             );
 
-            setPosts(a);
+            setPosts(a as Post[]);
         }
         // useEffectはasyncが使えないから関数を分けている;
         loadPosts();
