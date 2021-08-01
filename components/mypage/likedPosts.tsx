@@ -13,6 +13,7 @@ type LikedPostsProps = {
 
 const LikedPosts: FC<LikedPostsProps> = ({ user }) => {
     const [posts, setPosts] = useState<Post[]>([]);
+    const [likedPosts, setLikedPosts] = useState<string[]>([]);
 
     useEffect(() => {
         async function loadPosts() {
@@ -32,16 +33,20 @@ const LikedPosts: FC<LikedPostsProps> = ({ user }) => {
                 .doc(user?.uid)
                 .get();
 
-            const fetchPosts = likesPostsUsersSnapshot
+            const fetchPostsFromLiked = likesPostsUsersSnapshot
                 .data()
                 .posts_array.map((doc, index) => {
                     return likesPostsUsersSnapshot.data()?.posts_array[index]
                         .id;
                 });
 
-            console.log(fetchPosts);
+            console.log('いいねした記事のID', fetchPostsFromLiked);
+            setLikedPosts(fetchPostsFromLiked);
+            console.log('likedposts', likedPosts);
 
-            // setPosts(fetchPosts);
+            // いいねに紐づいたpostsを取得したい
+
+            // setPosts(fetchPostsFromPosts);
         }
         // useEffectはasyncが使えないから関数を分けている;
         loadPosts();
@@ -49,8 +54,8 @@ const LikedPosts: FC<LikedPostsProps> = ({ user }) => {
 
     return (
         <React.Fragment>
-            aaaaaa
-            {/* {posts.map((post) => {
+            aa
+            {posts.map((post) => {
                 const parsedCreatedAt = new Date(post.createdAt.seconds * 1000);
                 return (
                     <div className={styles.link} key={post.id}>
@@ -87,7 +92,7 @@ const LikedPosts: FC<LikedPostsProps> = ({ user }) => {
                         </div>
                     </div>
                 );
-            })} */}
+            })}
         </React.Fragment>
     );
 };
