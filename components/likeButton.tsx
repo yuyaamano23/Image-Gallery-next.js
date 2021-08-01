@@ -35,22 +35,57 @@ const LikeButton: FC<PostIdProps> = ({ postId }) => {
                 .collection('posts')
                 .doc(postId);
 
-            await firebase
+            const db = firebase
                 .firestore()
                 .collection('likes_posts_users')
-                .doc()
-                .set({
-                    userId: userRef,
-                    postId: postRef,
-                    createdAt: new Date(),
-                });
+                .doc(user.uid);
 
-            console.log(postId, 'にいいねをしました');
+            // フィールドに値が1つもないとudpateできないので、初めてのいいねの時はsetを使う
+            const firstLike = await db.get();
+
+            if (!firstLike.exists) {
+                await db.set({
+                    items_array: [postRef],
+                    updateAt: new Date(),
+                });
+                console.log(postId, 'はじめてのいいねをしました');
+            } else {
+                await db.update({
+                    items_array:
+                        firebase.firestore.FieldValue.arrayUnion(postRef),
+                    updateAt: new Date(),
+                });
+                console.log(postId, 'に2回目以降のいいねをしました');
+            }
         } catch (err) {
-            console.log();
+            console.log('いいねに失敗しました');
         }
     };
-    const unlike = async () => {};
+    const unlike = async () => {
+        try {
+            // userId,postIdのref型をstoreへ保存
+            const userRef = firebase
+                .firestore()
+                .collection('users')
+                .doc(user.uid);
+
+            const postRef = firebase
+                .firestore()
+                .collection('posts')
+                .doc(postId);
+
+            // await firebase
+            //     .firestore()
+            //     .collection('likes_posts_users')
+            //     .where('userId', '==', userRef)
+            //     .where('postId', '==', postRef)
+            //     .delete()
+
+            console.log(postId, 'のいいねを解除しました');
+        } catch (err) {
+            console.log('いいね解除に失敗しました');
+        }
+    };
 
     const toggleLike = () => {
         if (!user) {
