@@ -22,6 +22,10 @@ const LikeButton: FC<PostIdProps> = ({ postId }) => {
     const userRef = firebase.firestore().collection('users').doc(user?.uid);
     const postRef = firebase.firestore().collection('posts').doc(postId);
     const [isLike, setIsLike] = useState(false);
+    const db = firebase
+        .firestore()
+        .collection('likes_posts_users')
+        .doc(user.uid);
 
     useEffect(() => {
         async function checkLiked() {
@@ -43,11 +47,6 @@ const LikeButton: FC<PostIdProps> = ({ postId }) => {
 
     const like = async () => {
         try {
-            const db = firebase
-                .firestore()
-                .collection('likes_posts_users')
-                .doc(user.uid);
-
             // フィールドに値が1つもないとudpateできないので、初めてのいいねの時はsetを使う
             const firstLike = await db.get();
 
@@ -72,24 +71,9 @@ const LikeButton: FC<PostIdProps> = ({ postId }) => {
     };
     const unlike = async () => {
         try {
-            // userId,postIdのref型をstoreへ保存
-            const userRef = firebase
-                .firestore()
-                .collection('users')
-                .doc(user.uid);
-
-            const postRef = firebase
-                .firestore()
-                .collection('posts')
-                .doc(postId);
-
-            // await firebase
-            //     .firestore()
-            //     .collection('likes_posts_users')
-            //     .where('userId', '==', userRef)
-            //     .where('postId', '==', postRef)
-            //     .delete()
-
+            await db.update({
+                posts_array: firebase.firestore.FieldValue.arrayRemove(postRef), // usersフィールド（配列）から要素'user1','user2'を削除
+            });
             console.log(postId, 'のいいねを解除しました');
         } catch (err) {
             console.log('いいね解除に失敗しました');
