@@ -18,13 +18,25 @@ const LikeButton: FC = () => {
 
     const [isLike, setIsLike] = useState(false);
 
+    const like = async () => {};
+    const unlike = async () => {};
+
     const toggleLike = () => {
+        if (!user) {
+            return;
+        }
+
+        isLike ? unlike() : like();
         setIsLike(!isLike);
     };
 
     return (
         <Box display="flex" alignItems="center" color="gray.500">
-            <Tooltip label="いいね！" bg="gray.400" fontSize="11px">
+            <Tooltip
+                label={user ? 'いいね' : 'いいねするにはログインが必要です'}
+                bg="gray.400"
+                fontSize="11px"
+            >
                 <Text cursor="pointer" onClick={toggleLike}>
                     <Icon
                         as={isLike ? AiFillHeart : AiOutlineHeart}
