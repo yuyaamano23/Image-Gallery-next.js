@@ -5,6 +5,7 @@ import { useAuthentication } from 'hooks/authentication';
 import firebase from 'firebase/app';
 import { Box, Text, Icon, Tooltip } from '@chakra-ui/react';
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
+import { data } from 'autoprefixer';
 
 export type LikeButtonWithCountProps = {
     count: number;
@@ -17,24 +18,31 @@ export type PostIdProps = {
 
 const LikeButton: FC<PostIdProps> = ({ postId }) => {
     const { user } = useAuthentication();
-
-    useEffect(() => {}, []);
-
+    // userId,postIdのref型
+    const userRef = firebase.firestore().collection('users').doc(user?.uid);
+    const postRef = firebase.firestore().collection('posts').doc(postId);
     const [isLike, setIsLike] = useState(false);
+
+    useEffect(() => {
+        async function checkLiked() {
+            const querySnapshot = await firebase
+                .firestore()
+                .collection('likes_posts_users')
+                .where('posts_array', 'array-contains', postRef)
+                .where('userId', '==', userRef)
+                .get();
+
+            // 空じゃなかったら＝つまりすでにいいねした場合
+            if (!querySnapshot.empty) {
+                setIsLike(true);
+            }
+        }
+        // useEffectはasyncが使えないから関数を分けている;
+        checkLiked();
+    }, []);
 
     const like = async () => {
         try {
-            // userId,postIdのref型をstoreへ保存
-            const userRef = firebase
-                .firestore()
-                .collection('users')
-                .doc(user.uid);
-
-            const postRef = firebase
-                .firestore()
-                .collection('posts')
-                .doc(postId);
-
             const db = firebase
                 .firestore()
                 .collection('likes_posts_users')
@@ -45,13 +53,14 @@ const LikeButton: FC<PostIdProps> = ({ postId }) => {
 
             if (!firstLike.exists) {
                 await db.set({
-                    items_array: [postRef],
+                    userId: userRef,
+                    posts_array: [postRef],
                     updateAt: new Date(),
                 });
                 console.log(postId, 'はじめてのいいねをしました');
             } else {
                 await db.update({
-                    items_array:
+                    posts_array:
                         firebase.firestore.FieldValue.arrayUnion(postRef),
                     updateAt: new Date(),
                 });
