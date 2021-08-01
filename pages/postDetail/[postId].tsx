@@ -137,7 +137,7 @@ const PostDetail: FC = () => {
                                     .toString()}
                             </p>
                             <p>投稿者:{post.authorName}</p>
-                            <LikeButton />
+                            <LikeButton postId={post.id} />
                         </div>
                     </div>
                     <div>

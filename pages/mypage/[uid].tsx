@@ -102,7 +102,7 @@ const UserMypage: FC = () => {
                                         <p>投稿者:{user.name}</p>
                                     </a>
                                 </Link>
-                                <LikeButton />
+                                <LikeButton postId={post.id} />
                             </div>
                         </div>
                     </div>
