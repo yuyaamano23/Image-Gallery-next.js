@@ -34,8 +34,6 @@ const LikedPosts: FC<LikedPostsProps> = ({ user }) => {
                         .id;
                 });
 
-            console.log('いいねした記事のID', fetchPostsFromLiked);
-
             const a = await Promise.all(
                 fetchPostsFromLiked.map(async (i) => {
                     const fetchPost = await firebase
@@ -56,8 +54,6 @@ const LikedPosts: FC<LikedPostsProps> = ({ user }) => {
                 })
             );
 
-            console.log('a', a);
-
             setPosts(a);
         }
         // useEffectはasyncが使えないから関数を分けている;
@@ -66,15 +62,15 @@ const LikedPosts: FC<LikedPostsProps> = ({ user }) => {
 
     return (
         <React.Fragment>
-            {posts.map((post) => {
+            {posts.map((post, index) => {
                 if (post === undefined) {
-                    return <div key={post?.id}></div>;
+                    return <div key={index}></div>;
                 } else {
                     const parsedCreatedAt = new Date(
                         post.createdAt.seconds * 1000
                     );
                     return (
-                        <div className={styles.link} key={post.id}>
+                        <div className={styles.link} key={index}>
                             <div className={styles.card}>
                                 <Link href={`/postDetail/${post.id}`} passHref>
                                     <a>
