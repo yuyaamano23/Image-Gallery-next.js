@@ -7,33 +7,41 @@ import Link from 'next/link';
 import styles from 'styles/components/postsIndex.module.scss';
 import LikeButton from 'components/likeButton';
 
-type MyPostsProps = {
+type LikedPostsProps = {
     user: User;
 };
 
-const MyPosts: FC<MyPostsProps> = ({ user }) => {
+const LikedPosts: FC<LikedPostsProps> = ({ user }) => {
     const [posts, setPosts] = useState<Post[]>([]);
 
     useEffect(() => {
         async function loadPosts() {
+            // 初回レンダリングを考慮
+            if (user?.uid === undefined) {
+                return;
+            }
+
             const userRef = firebase
                 .firestore()
                 .collection('users')
                 .doc(user?.uid);
 
-            const querySnapshot = await firebase
+            const likesPostsUsersSnapshot = await firebase
                 .firestore()
-                .collection('posts')
-                .where('userId', '==', userRef)
-                .orderBy('createdAt', 'desc')
+                .collection('likes_posts_users')
+                .doc(user?.uid)
                 .get();
-            const fetchPosts = querySnapshot.docs.map((doc) => {
-                const fetchPost = doc.data() as Post;
-                fetchPost.id = doc.id;
 
-                return fetchPost;
-            });
-            setPosts(fetchPosts);
+            const fetchPosts = likesPostsUsersSnapshot
+                .data()
+                .posts_array.map((doc, index) => {
+                    return likesPostsUsersSnapshot.data()?.posts_array[index]
+                        .id;
+                });
+
+            console.log(fetchPosts);
+
+            // setPosts(fetchPosts);
         }
         // useEffectはasyncが使えないから関数を分けている;
         loadPosts();
@@ -41,7 +49,8 @@ const MyPosts: FC<MyPostsProps> = ({ user }) => {
 
     return (
         <React.Fragment>
-            {posts.map((post) => {
+            aaaaaa
+            {/* {posts.map((post) => {
                 const parsedCreatedAt = new Date(post.createdAt.seconds * 1000);
                 return (
                     <div className={styles.link} key={post.id}>
@@ -78,8 +87,8 @@ const MyPosts: FC<MyPostsProps> = ({ user }) => {
                         </div>
                     </div>
                 );
-            })}
+            })} */}
         </React.Fragment>
     );
 };
-export default MyPosts;
+export default LikedPosts;

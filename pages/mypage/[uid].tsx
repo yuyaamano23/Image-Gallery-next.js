@@ -3,7 +3,7 @@ import { User } from 'models/User';
 import { useRouter } from 'next/router';
 import firebase from 'firebase/app';
 import MyPosts from 'components/mypage/myPosts';
-import MyPost from 'components/mypage/myPosts';
+import LikedPosts from 'components/mypage/likedPosts';
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
 
 type Query = {
@@ -50,10 +50,10 @@ const UserMypage: FC = () => {
                 </TabList>
                 <TabPanels>
                     <TabPanel>
-                        <MyPost user={user} />
+                        <MyPosts user={user} />
                     </TabPanel>
                     <TabPanel>
-                        <p>two!</p>
+                        <LikedPosts user={user} />
                     </TabPanel>
                 </TabPanels>
             </Tabs>

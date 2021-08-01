@@ -24,7 +24,7 @@ const LikeButton: FC<PostIdProps> = ({ postId }) => {
     const db = firebase
         .firestore()
         .collection('likes_posts_users')
-        .doc(user.uid);
+        .doc(user?.uid);
 
     useEffect(() => {
         async function checkLiked() {
