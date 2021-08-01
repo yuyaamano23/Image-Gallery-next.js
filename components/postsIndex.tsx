@@ -12,6 +12,7 @@ const PostsIndex: FC = () => {
     const [posts, setPosts] = useState<Post[]>([]);
 
     useEffect(() => {
+        let isMounted = true;
         async function loadPosts() {
             const querySnapshot = await firebase
                 .firestore()
@@ -43,11 +44,15 @@ const PostsIndex: FC = () => {
                     return;
                 })
             );
-
-            setPosts(fetchPosts);
+            if (isMounted) {
+                setPosts(fetchPosts);
+            }
         }
         // useEffectはasyncが使えないから関数を分けている;
         loadPosts();
+        return () => {
+            isMounted = false;
+        };
     }, []);
 
     return (

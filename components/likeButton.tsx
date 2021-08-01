@@ -27,6 +27,8 @@ const LikeButton: FC<PostIdProps> = ({ postId }) => {
         .doc(user?.uid);
 
     useEffect(() => {
+        let isMounted = true;
+
         async function checkLiked() {
             const querySnapshot = await firebase
                 .firestore()
@@ -36,12 +38,15 @@ const LikeButton: FC<PostIdProps> = ({ postId }) => {
                 .get();
 
             // 空じゃなかったら＝つまりすでにいいねした場合
-            if (!querySnapshot.empty) {
+            if (!querySnapshot.empty && isMounted) {
                 setIsLike(true);
             }
         }
         // useEffectはasyncが使えないから関数を分けている;
         checkLiked();
+        return () => {
+            isMounted = false;
+        };
     }, []);
 
     const like = async () => {

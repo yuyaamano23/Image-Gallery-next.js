@@ -15,6 +15,7 @@ const LikedPosts: FC<LikedPostsProps> = ({ user }) => {
     const [posts, setPosts] = useState<Post[]>([]);
 
     useEffect(() => {
+        let isMounted = true;
         async function loadPosts() {
             // 初回レンダリングを考慮
             if (user?.uid === undefined) {
@@ -52,10 +53,15 @@ const LikedPosts: FC<LikedPostsProps> = ({ user }) => {
                 })
             );
 
-            setPosts(a as Post[]);
+            if (isMounted) {
+                setPosts(a as Post[]);
+            }
         }
         // useEffectはasyncが使えないから関数を分けている;
         loadPosts();
+        return () => {
+            isMounted = false;
+        };
     }, [user?.uid]);
 
     return (
