@@ -5,4 +5,6 @@ export interface Post {
     createdAt: any;
     authorName: string;
     authorId: string;
+    // TODO: すでにいいねしたかどうか
+    isLiked: boolean;
 }

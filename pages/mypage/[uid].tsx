@@ -6,6 +6,7 @@ import firebase from 'firebase/app';
 import Image from 'next/image';
 import Link from 'next/link';
 import styles from 'styles/components/postsIndex.module.scss';
+import LikeButton from 'components/likeButton';
 
 type Query = {
     uid: string;
@@ -73,9 +74,9 @@ const UserMypage: FC = () => {
                 const parsedCreatedAt = new Date(post.createdAt.seconds * 1000);
                 return (
                     <div className={styles.link} key={post.id}>
-                        <Link href={`/postDetail/${post.id}`} passHref>
-                            <div>
-                                <div className={styles.card}>
+                        <div className={styles.card}>
+                            <Link href={`/postDetail/${post.id}`} passHref>
+                                <a>
                                     <Image
                                         src={`${post.downloadUrl}`}
                                         // この数字を大きくする分には比率は崩れなさそう
@@ -85,7 +86,11 @@ const UserMypage: FC = () => {
                                         alt={`${post.title}`}
                                         className={styles.img}
                                     />
-                                    <div className={styles.container}>
+                                </a>
+                            </Link>
+                            <div className={styles.container}>
+                                <Link href={`/postDetail/${post.id}`} passHref>
+                                    <a>
                                         <h4>
                                             <b>{post.title}</b>
                                         </h4>
@@ -95,10 +100,11 @@ const UserMypage: FC = () => {
                                                 .toString()}
                                         </p>
                                         <p>投稿者:{user.name}</p>
-                                    </div>
-                                </div>
+                                    </a>
+                                </Link>
+                                <LikeButton postId={post.id} />
                             </div>
-                        </Link>
+                        </div>
                     </div>
                 );
             })}

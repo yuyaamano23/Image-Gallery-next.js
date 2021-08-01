@@ -7,7 +7,8 @@ import styles from 'styles/pages/postId.module.scss';
 import Image from 'next/image';
 import { Textarea, Text, Button } from '@chakra-ui/react';
 import { useAuthentication } from 'hooks/authentication';
-import { AddIcon } from '@chakra-ui/icons';
+import { AddIcon, ChatIcon } from '@chakra-ui/icons';
+import LikeButton from 'components/likeButton';
 
 type Query = {
     postId: string;
@@ -84,7 +85,6 @@ const PostDetail: FC = () => {
     }, [query.postId]);
 
     const createComment = (e) => {
-        e.preventDefault();
         try {
             // userIdのref型をstoreへ保存
             const userRef = firebase
@@ -137,6 +137,7 @@ const PostDetail: FC = () => {
                                     .toString()}
                             </p>
                             <p>投稿者:{post.authorName}</p>
+                            <LikeButton postId={post.id} />
                         </div>
                     </div>
                     <div>
@@ -150,6 +151,7 @@ const PostDetail: FC = () => {
                                     className={styles.comment}
                                     key={comment.id}
                                 >
+                                    <ChatIcon w={6} h={6} />
                                     <p>{comment.body}</p>
                                     <p>
                                         {parsedCreatedAt
@@ -161,7 +163,7 @@ const PostDetail: FC = () => {
                         })}
                     </div>
                     <div>
-                        <Text mb="8px">コメントを投稿する{value}</Text>
+                        <Text mb="8px">コメントを投稿する</Text>
                         <Textarea
                             value={value}
                             onChange={handleInputChange}
