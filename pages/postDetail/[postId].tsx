@@ -85,7 +85,6 @@ const PostDetail: FC = () => {
     }, [query.postId]);
 
     const createComment = (e) => {
-        e.preventDefault();
         try {
             // userIdのref型をstoreへ保存
             const userRef = firebase
@@ -164,7 +163,7 @@ const PostDetail: FC = () => {
                         })}
                     </div>
                     <div>
-                        <Text mb="8px">コメントを投稿する{value}</Text>
+                        <Text mb="8px">コメントを投稿する</Text>
                         <Textarea
                             value={value}
                             onChange={handleInputChange}

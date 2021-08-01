@@ -11,14 +11,45 @@ export type LikeButtonWithCountProps = {
     isLiked: boolean;
 };
 
-const LikeButton: FC = () => {
+export type PostIdProps = {
+    postId: string;
+};
+
+const LikeButton: FC<PostIdProps> = ({ postId }) => {
     const { user } = useAuthentication();
 
     useEffect(() => {}, []);
 
     const [isLike, setIsLike] = useState(false);
 
-    const like = async () => {};
+    const like = async () => {
+        try {
+            // userId,postIdのref型をstoreへ保存
+            const userRef = firebase
+                .firestore()
+                .collection('users')
+                .doc(user.uid);
+
+            const postRef = firebase
+                .firestore()
+                .collection('posts')
+                .doc(postId);
+
+            await firebase
+                .firestore()
+                .collection('likes_posts_users')
+                .doc()
+                .set({
+                    userId: userRef,
+                    postId: postRef,
+                    createdAt: new Date(),
+                });
+
+            console.log(postId, 'にいいねをしました');
+        } catch (err) {
+            console.log();
+        }
+    };
     const unlike = async () => {};
 
     const toggleLike = () => {

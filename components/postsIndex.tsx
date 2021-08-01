@@ -92,7 +92,7 @@ const PostsIndex: FC = () => {
                                         <p>投稿者:{post.authorName}</p>
                                     </a>
                                 </Link>
-                                <LikeButton />
+                                <LikeButton postId={post.id} />
                             </div>
                         </div>
                     </div>
