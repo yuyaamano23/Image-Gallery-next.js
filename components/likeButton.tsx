@@ -5,7 +5,6 @@ import { useAuthentication } from 'hooks/authentication';
 import firebase from 'firebase/app';
 import { Box, Text, Icon, Tooltip } from '@chakra-ui/react';
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
-import { data } from 'autoprefixer';
 
 export type LikeButtonWithCountProps = {
     count: number;
