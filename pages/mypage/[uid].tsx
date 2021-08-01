@@ -1,12 +1,10 @@
 import React, { FC, useEffect, useState } from 'react';
 import { User } from 'models/User';
-import { Post } from 'models/Post';
 import { useRouter } from 'next/router';
 import firebase from 'firebase/app';
-import Image from 'next/image';
-import Link from 'next/link';
-import styles from 'styles/components/postsIndex.module.scss';
-import LikeButton from 'components/likeButton';
+import MyPosts from 'components/mypage/myPosts';
+import LikedPosts from 'components/mypage/likedPosts';
+import { Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
 
 type Query = {
     uid: string;
@@ -14,7 +12,6 @@ type Query = {
 
 const UserMypage: FC = () => {
     const [user, setUser] = useState<User>(null);
-    const [posts, setPosts] = useState<Post[]>([]);
     const router = useRouter();
     const query = router.query as Query;
 
@@ -41,73 +38,25 @@ const UserMypage: FC = () => {
         }
         // useEffectはasyncが使えないから関数を分けている;
         loadUser();
-
-        async function loadPosts() {
-            const userRef = firebase
-                .firestore()
-                .collection('users')
-                .doc(query.uid);
-
-            const querySnapshot = await firebase
-                .firestore()
-                .collection('posts')
-                .where('userId', '==', userRef)
-                .orderBy('createdAt', 'desc')
-                .get();
-            const fetchPosts = querySnapshot.docs.map((doc) => {
-                const fetchPost = doc.data() as Post;
-                fetchPost.id = doc.id;
-
-                return fetchPost;
-            });
-            setPosts(fetchPosts);
-        }
-        // useEffectはasyncが使えないから関数を分けている;
-        loadPosts();
     }, [query.uid]);
 
     return (
         <React.Fragment>
             <div>{user ? user.name : 'ロード中...'}さんのページ</div>
-            <div>いままでの投稿</div>
-            {posts.map((post) => {
-                const parsedCreatedAt = new Date(post.createdAt.seconds * 1000);
-                return (
-                    <div className={styles.link} key={post.id}>
-                        <div className={styles.card}>
-                            <Link href={`/postDetail/${post.id}`} passHref>
-                                <a>
-                                    <Image
-                                        src={`${post.downloadUrl}`}
-                                        // この数字を大きくする分には比率は崩れなさそう
-                                        width={1000}
-                                        height={1000}
-                                        objectFit="contain"
-                                        alt={`${post.title}`}
-                                        className={styles.img}
-                                    />
-                                </a>
-                            </Link>
-                            <div className={styles.container}>
-                                <Link href={`/postDetail/${post.id}`} passHref>
-                                    <a>
-                                        <h4>
-                                            <b>{post.title}</b>
-                                        </h4>
-                                        <p>
-                                            {parsedCreatedAt
-                                                .toLocaleString('ja-JP')
-                                                .toString()}
-                                        </p>
-                                        <p>投稿者:{user.name}</p>
-                                    </a>
-                                </Link>
-                                <LikeButton postId={post.id} />
-                            </div>
-                        </div>
-                    </div>
-                );
-            })}
+            <Tabs variant="enclosed" id="1">
+                <TabList>
+                    <Tab>いままでの投稿</Tab>
+                    <Tab>いいねした記事</Tab>
+                </TabList>
+                <TabPanels>
+                    <TabPanel>
+                        <MyPosts user={user} />
+                    </TabPanel>
+                    <TabPanel>
+                        <LikedPosts user={user} />
+                    </TabPanel>
+                </TabPanels>
+            </Tabs>
         </React.Fragment>
     );
 };
