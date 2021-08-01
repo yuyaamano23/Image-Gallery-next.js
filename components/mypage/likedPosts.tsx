@@ -43,12 +43,10 @@ const LikedPosts: FC<LikedPostsProps> = ({ user }) => {
                         .get();
 
                     if (!fetchPost.exists) {
-                        console.log('no exist');
                         return;
                     } else {
                         const b = fetchPost.data() as Post;
                         b.id = i;
-                        console.log('exist');
                         return b;
                     }
                 })
