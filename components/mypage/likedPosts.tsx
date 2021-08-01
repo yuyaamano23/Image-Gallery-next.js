@@ -6,6 +6,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import styles from 'styles/components/postsIndex.module.scss';
 import LikeButton from 'components/likeButton';
+import { data } from 'autoprefixer';
 
 type LikedPostsProps = {
     user: User;
@@ -13,7 +14,6 @@ type LikedPostsProps = {
 
 const LikedPosts: FC<LikedPostsProps> = ({ user }) => {
     const [posts, setPosts] = useState<Post[]>([]);
-    const [likedPosts, setLikedPosts] = useState<string[]>([]);
 
     useEffect(() => {
         async function loadPosts() {
@@ -21,11 +21,6 @@ const LikedPosts: FC<LikedPostsProps> = ({ user }) => {
             if (user?.uid === undefined) {
                 return;
             }
-
-            const userRef = firebase
-                .firestore()
-                .collection('users')
-                .doc(user?.uid);
 
             const likesPostsUsersSnapshot = await firebase
                 .firestore()
@@ -41,10 +36,32 @@ const LikedPosts: FC<LikedPostsProps> = ({ user }) => {
                 });
 
             console.log('いいねした記事のID', fetchPostsFromLiked);
-            setLikedPosts(fetchPostsFromLiked);
-            console.log('likedposts', likedPosts);
 
             // いいねに紐づいたpostsを取得したい
+            const querySnapshot = await firebase
+                .firestore()
+                .collection('posts')
+                .doc(fetchPostsFromLiked[0])
+                .get();
+
+            console.log('querysnapshot', querySnapshot.data());
+            const a = querySnapshot.data() as Post;
+            a.id = fetchPostsFromLiked[0];
+            console.log('a', a);
+            setPosts([a]);
+
+            // const a = await Promise.all(
+            //     querySnapshot.map(async (i) => {
+            //         const fetchUser = await firebase
+            //             .firestore()
+            //             .collection('users')
+            //             .doc(i.authorId)
+            //             .get();
+
+            //         i.authorName = fetchUser.data().name;
+            //         return;
+            //     })
+            // );
 
             // setPosts(fetchPostsFromPosts);
         }
