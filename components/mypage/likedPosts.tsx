@@ -6,7 +6,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 import styles from 'styles/components/postsIndex.module.scss';
 import LikeButton from 'components/likeButton';
-import { data } from 'autoprefixer';
 
 type LikedPostsProps = {
     user: User;
@@ -37,33 +36,29 @@ const LikedPosts: FC<LikedPostsProps> = ({ user }) => {
 
             console.log('いいねした記事のID', fetchPostsFromLiked);
 
-            // いいねに紐づいたpostsを取得したい
-            const querySnapshot = await firebase
-                .firestore()
-                .collection('posts')
-                .doc(fetchPostsFromLiked[0])
-                .get();
+            const a = await Promise.all(
+                fetchPostsFromLiked.map(async (i) => {
+                    const fetchPost = await firebase
+                        .firestore()
+                        .collection('posts')
+                        .doc(i)
+                        .get();
 
-            console.log('querysnapshot', querySnapshot.data());
-            const a = querySnapshot.data() as Post;
-            a.id = fetchPostsFromLiked[0];
+                    if (!fetchPost.exists) {
+                        console.log('no exist');
+                        return;
+                    } else {
+                        const b = fetchPost.data() as Post;
+                        b.id = i;
+                        console.log('exist');
+                        return b;
+                    }
+                })
+            );
+
             console.log('a', a);
-            setPosts([a]);
 
-            // const a = await Promise.all(
-            //     querySnapshot.map(async (i) => {
-            //         const fetchUser = await firebase
-            //             .firestore()
-            //             .collection('users')
-            //             .doc(i.authorId)
-            //             .get();
-
-            //         i.authorName = fetchUser.data().name;
-            //         return;
-            //     })
-            // );
-
-            // setPosts(fetchPostsFromPosts);
+            setPosts(a);
         }
         // useEffectはasyncが使えないから関数を分けている;
         loadPosts();
@@ -71,44 +66,52 @@ const LikedPosts: FC<LikedPostsProps> = ({ user }) => {
 
     return (
         <React.Fragment>
-            aa
             {posts.map((post) => {
-                const parsedCreatedAt = new Date(post.createdAt.seconds * 1000);
-                return (
-                    <div className={styles.link} key={post.id}>
-                        <div className={styles.card}>
-                            <Link href={`/postDetail/${post.id}`} passHref>
-                                <a>
-                                    <Image
-                                        src={`${post.downloadUrl}`}
-                                        // この数字を大きくする分には比率は崩れなさそう
-                                        width={1000}
-                                        height={1000}
-                                        objectFit="contain"
-                                        alt={`${post.title}`}
-                                        className={styles.img}
-                                    />
-                                </a>
-                            </Link>
-                            <div className={styles.container}>
+                if (post === undefined) {
+                    return <div key={post?.id}></div>;
+                } else {
+                    const parsedCreatedAt = new Date(
+                        post.createdAt.seconds * 1000
+                    );
+                    return (
+                        <div className={styles.link} key={post.id}>
+                            <div className={styles.card}>
                                 <Link href={`/postDetail/${post.id}`} passHref>
                                     <a>
-                                        <h4>
-                                            <b>{post.title}</b>
-                                        </h4>
-                                        <p>
-                                            {parsedCreatedAt
-                                                .toLocaleString('ja-JP')
-                                                .toString()}
-                                        </p>
-                                        <p>投稿者:{user.name}</p>
+                                        <Image
+                                            src={`${post.downloadUrl}`}
+                                            // この数字を大きくする分には比率は崩れなさそう
+                                            width={1000}
+                                            height={1000}
+                                            objectFit="contain"
+                                            alt={`${post.title}`}
+                                            className={styles.img}
+                                        />
                                     </a>
                                 </Link>
-                                <LikeButton postId={post.id} />
+                                <div className={styles.container}>
+                                    <Link
+                                        href={`/postDetail/${post.id}`}
+                                        passHref
+                                    >
+                                        <a>
+                                            <h4>
+                                                <b>{post.title}</b>
+                                            </h4>
+                                            <p>
+                                                {parsedCreatedAt
+                                                    .toLocaleString('ja-JP')
+                                                    .toString()}
+                                            </p>
+                                            <p>投稿者:{user.name}</p>
+                                        </a>
+                                    </Link>
+                                    <LikeButton postId={post.id} />
+                                </div>
                             </div>
                         </div>
-                    </div>
-                );
+                    );
+                }
             })}
         </React.Fragment>
     );
