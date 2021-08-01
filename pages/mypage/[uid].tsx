@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import firebase from 'firebase/app';
 import MyPosts from 'components/mypage/myPosts';
 import MyPost from 'components/mypage/myPosts';
+import { Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
 
 type Query = {
     uid: string;
@@ -42,7 +43,20 @@ const UserMypage: FC = () => {
     return (
         <React.Fragment>
             <div>{user ? user.name : 'ロード中...'}さんのページ</div>
-            <MyPost user={user} />
+            <Tabs variant="enclosed" id="1">
+                <TabList>
+                    <Tab>いままでの投稿</Tab>
+                    <Tab>いいねした記事</Tab>
+                </TabList>
+                <TabPanels>
+                    <TabPanel>
+                        <MyPost user={user} />
+                    </TabPanel>
+                    <TabPanel>
+                        <p>two!</p>
+                    </TabPanel>
+                </TabPanels>
+            </Tabs>
         </React.Fragment>
     );
 };

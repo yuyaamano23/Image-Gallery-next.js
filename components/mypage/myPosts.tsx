@@ -41,7 +41,6 @@ const MyPost: FC<MyPostsProps> = ({ user }) => {
 
     return (
         <React.Fragment>
-            <div>いままでの投稿</div>
             {posts.map((post) => {
                 const parsedCreatedAt = new Date(post.createdAt.seconds * 1000);
                 return (
