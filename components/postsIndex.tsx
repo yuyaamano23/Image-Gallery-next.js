@@ -66,7 +66,7 @@ const PostsIndex: FC = () => {
                     <div className={styles.link} key={post.id}>
                         <div className={styles.card}>
                             <Link href={`/postDetail/${post.id}`} passHref>
-                                <>
+                                <a>
                                     <Image
                                         src={`${post.downloadUrl}`}
                                         // この数字を大きくする分には比率は崩れなさそう
@@ -76,11 +76,11 @@ const PostsIndex: FC = () => {
                                         alt={`${post.title}`}
                                         className={styles.img}
                                     />
-                                </>
+                                </a>
                             </Link>
                             <div className={styles.container}>
                                 <Link href={`/postDetail/${post.id}`} passHref>
-                                    <>
+                                    <a>
                                         <h4>
                                             <b>{post.title}</b>
                                         </h4>
@@ -90,7 +90,7 @@ const PostsIndex: FC = () => {
                                                 .toString()}
                                         </p>
                                         <p>投稿者:{post.authorName}</p>
-                                    </>
+                                    </a>
                                 </Link>
                                 <LikeButton />
                             </div>

@@ -138,8 +138,8 @@ const PostDetail: FC = () => {
                                     .toString()}
                             </p>
                             <p>投稿者:{post.authorName}</p>
+                            <LikeButton />
                         </div>
-                        <LikeButton />
                     </div>
                     <div>
                         <Text mb="8px">【コメント一覧】</Text>
