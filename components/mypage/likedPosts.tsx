@@ -32,7 +32,6 @@ const LikedPosts: FC<LikedPostsProps> = ({ user }) => {
             if (!likesPostsUsersSnapshot.exists) {
                 return;
             }
-            console.log('type', likesPostsUsersSnapshot);
             const fetchPostsFromLiked = likesPostsUsersSnapshot
                 .data()
                 .posts_array.map((doc, index) => {

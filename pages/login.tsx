@@ -5,7 +5,7 @@ import Router from 'next/router';
 import Link from 'next/link';
 import { useAuthentication } from 'hooks/authentication';
 import firebase from 'firebase/app';
-import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
+import GoogleLoginButton from 'components/googleLogin';
 
 const Login: FC = () => {
     const { user } = useAuthentication();
@@ -26,49 +26,6 @@ const Login: FC = () => {
         } catch (err) {
             alert(err.message);
         }
-    };
-
-    const createUserIfNotfound = async () => {
-        let currentUser = firebase.auth().currentUser;
-        const doc = await firebase
-            .firestore()
-            .collection('users')
-            .doc(currentUser.uid)
-            .get();
-
-        if (doc.exists) {
-            // すでに登録済み
-            return;
-        } else {
-            await firebase
-                .firestore()
-                .collection('users')
-                .doc(currentUser.uid)
-                .set({
-                    name: currentUser.displayName,
-                    createdAt: new Date(),
-                });
-            console.log('createUserwithGoogle');
-        }
-    };
-
-    // Configure FirebaseUI.
-    const uiConfig = {
-        // Popup signin flow rather than redirect flow.
-        signInFlow: 'popup',
-        // We will display Google and Facebook as auth providers.
-        signInOptions: [firebase.auth.GoogleAuthProvider.PROVIDER_ID],
-        credentialHelper: 'none',
-        // calbacksに以下のように関数を与えることで実行される。
-        callbacks: {
-            // Avoid redirects after sign-in.
-
-            signInSuccessWithAuthResult: () => {
-                createUserIfNotfound();
-                // Booleanを返さなきゃ型エラー起きる
-                return true;
-            },
-        },
     };
 
     return (
@@ -102,10 +59,7 @@ const Login: FC = () => {
                     <a>新規登録画面へ</a>
                 </Link>
             </button>
-            <StyledFirebaseAuth
-                uiConfig={uiConfig}
-                firebaseAuth={firebase.auth()}
-            />
+            <GoogleLoginButton />
         </div>
     );
 };

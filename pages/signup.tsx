@@ -5,6 +5,7 @@ import Router from 'next/router';
 import { useAuthentication } from 'hooks/authentication';
 import firebase from 'firebase/app';
 import Link from 'next/link';
+import GoogleLoginButton from 'components/googleLogin';
 
 const Signup: FC = () => {
     const { user } = useAuthentication();
@@ -89,6 +90,7 @@ const Signup: FC = () => {
                     <a>ログイン画面へ</a>
                 </Link>
             </button>
+            <GoogleLoginButton />
         </div>
     );
 };
