@@ -28,6 +28,11 @@ const LikedPosts: FC<LikedPostsProps> = ({ user }) => {
                 .doc(user?.uid)
                 .get();
 
+            // いいねがひとつもない状態でいいね一覧をみるとundefindエラーになるからこれ必要
+            if (!likesPostsUsersSnapshot.exists) {
+                return;
+            }
+            console.log('type', likesPostsUsersSnapshot);
             const fetchPostsFromLiked = likesPostsUsersSnapshot
                 .data()
                 .posts_array.map((doc, index) => {
