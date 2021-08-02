@@ -7,18 +7,6 @@ import { useAuthentication } from 'hooks/authentication';
 import firebase from 'firebase/app';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 
-// Configure FirebaseUI.
-const uiConfig = {
-    // Popup signin flow rather than redirect flow.
-    signInFlow: 'popup',
-    // We will display Google and Facebook as auth providers.
-    signInOptions: [firebase.auth.GoogleAuthProvider.PROVIDER_ID],
-    callbacks: {
-        // Avoid redirects after sign-in.
-        signInSuccessWithAuthResult: () => false,
-    },
-};
-
 const Login: FC = () => {
     const { user } = useAuthentication();
     const [email, setEmail] = useState<string>('');
@@ -39,6 +27,46 @@ const Login: FC = () => {
             alert(err.message);
         }
     };
+
+    const createUserIfNotfound = async () => {
+        let currentUser = firebase.auth().currentUser;
+        const doc = await firebase
+            .firestore()
+            .collection('users')
+            .doc(currentUser.uid)
+            .get();
+
+        if (doc.exists) {
+            // すでに登録済み
+            return;
+        } else {
+            await firebase
+                .firestore()
+                .collection('users')
+                .doc(currentUser.uid)
+                .set({
+                    name: currentUser.displayName,
+                    createdAt: new Date(),
+                });
+            console.log('createUserwithGoogle');
+        }
+    };
+
+    // Configure FirebaseUI.
+    const uiConfig = {
+        // Popup signin flow rather than redirect flow.
+        signInFlow: 'popup',
+        // We will display Google and Facebook as auth providers.
+        signInOptions: [firebase.auth.GoogleAuthProvider.PROVIDER_ID],
+        // calbacksに以下のように関数を与えることで実行される。
+        callbacks: {
+            // Avoid redirects after sign-in.
+            signInSuccessWithAuthResult: () => {
+                createUserIfNotfound();
+            },
+        },
+    };
+
     return (
         <div>
             <h2>ログイン</h2>
