@@ -5,6 +5,19 @@ import Router from 'next/router';
 import Link from 'next/link';
 import { useAuthentication } from 'hooks/authentication';
 import firebase from 'firebase/app';
+import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
+
+// Configure FirebaseUI.
+const uiConfig = {
+    // Popup signin flow rather than redirect flow.
+    signInFlow: 'popup',
+    // We will display Google and Facebook as auth providers.
+    signInOptions: [firebase.auth.GoogleAuthProvider.PROVIDER_ID],
+    callbacks: {
+        // Avoid redirects after sign-in.
+        signInSuccessWithAuthResult: () => false,
+    },
+};
 
 const Login: FC = () => {
     const { user } = useAuthentication();
@@ -57,6 +70,10 @@ const Login: FC = () => {
                     <a>新規登録画面へ</a>
                 </Link>
             </button>
+            <StyledFirebaseAuth
+                uiConfig={uiConfig}
+                firebaseAuth={firebase.auth()}
+            />
         </div>
     );
 };
