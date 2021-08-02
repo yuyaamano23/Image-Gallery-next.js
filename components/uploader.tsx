@@ -146,6 +146,8 @@ const Uploader: FC = () => {
                                     duration: 5000,
                                     isClosable: true,
                                 });
+                                setTitle('');
+                                setModalIsOpen(false);
                             });
                     } catch (error) {
                         let errorMessage = '';
