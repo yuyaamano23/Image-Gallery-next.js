@@ -12,6 +12,7 @@ import {
     IconButtonProps,
     useColorMode,
     Box,
+    Spinner,
 } from '@chakra-ui/react';
 import { FaMoon, FaSun } from 'react-icons/fa';
 
@@ -77,7 +78,11 @@ const Header: FC = (props: ColorModeSwitcherProps) => {
                                 <a>マイページ</a>
                             </Button>
                         </Link>
-                        <div>ようこそ{stateUser?.name}さん</div>
+                        <div>
+                            ようこそ
+                            {stateUser ? stateUser.name : <Spinner />}
+                            さん
+                        </div>
                     </div>
                 ) : (
                     <Link href="/login" passHref>

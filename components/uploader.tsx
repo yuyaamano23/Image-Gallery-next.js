@@ -18,6 +18,7 @@ import {
     FormLabel,
     Input,
     Tooltip,
+    useToast,
 } from '@chakra-ui/react';
 import { AddIcon } from '@chakra-ui/icons';
 
@@ -34,6 +35,7 @@ const Uploader: FC = () => {
     const [src, setSrc] = useState('');
     const [title, setTitle] = useState<string>('default');
     const { user } = useAuthentication();
+    const toast = useToast();
 
     // chakraのmodal
     const initialRef = React.useRef();
@@ -87,25 +89,30 @@ const Uploader: FC = () => {
                     }
                 },
                 function (error: any) {
+                    let errorMessage = '';
                     // 失敗した時
                     switch (error.code) {
                         case 'storage/unauthorized':
                             // User doesn't have permission to access the object
-                            console.error('許可がありません');
+                            errorMessage = '許可がありません';
                             break;
 
                         case 'storage/canceled':
-                            console.error(
-                                'アップロードがキャンセルされました　'
-                            );
+                            errorMessage = 'アップロードがキャンセルされました';
                             // User canceled the upload
                             break;
 
                         case 'storage/unknown':
-                            console.error('予期せぬエラーが発生しました');
+                            errorMessage = '予期せぬエラーが発生しました';
                             // Unknown error occurred, inspect error.serverResponse
                             break;
                     }
+                    toast({
+                        title: errorMessage,
+                        status: 'error',
+                        duration: 5000,
+                        isClosable: true,
+                    });
                 },
                 function () {
                     // 成功した時
@@ -131,23 +138,39 @@ const Uploader: FC = () => {
                                         userId: userRef,
                                         title: title,
                                     });
-                                console.log('画像がdbに保存されました');
+                                toast({
+                                    title: '画像を投稿しました',
+                                    description:
+                                        '更新ボタンを押すと一覧から確認できます',
+                                    status: 'success',
+                                    duration: 5000,
+                                    isClosable: true,
+                                });
+                                setTitle('');
+                                setModalIsOpen(false);
                             });
                     } catch (error) {
+                        let errorMessage = '';
                         switch (error.code) {
                             case 'storage/object-not-found':
-                                console.log('ファイルが存在しませんでした');
+                                errorMessage = 'ファイルが存在しませんでした';
                                 break;
                             case 'storage/unauthorized':
-                                console.log('許可がありません');
+                                errorMessage = '許可がありません';
                                 break;
                             case 'storage/canceled':
-                                console.log('キャンセルされました');
+                                errorMessage = 'キャンセルされました';
                                 break;
                             case 'storage/unknown':
-                                console.log('予期せぬエラーが生じました');
+                                errorMessage = '予期せぬエラーが生じました';
                                 break;
                         }
+                        toast({
+                            title: errorMessage,
+                            status: 'error',
+                            duration: 5000,
+                            isClosable: true,
+                        });
                     }
                 }
             );

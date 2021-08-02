@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { Post } from 'models/Post';
 import styles from 'styles/components/postsIndex.module.scss';
 import Link from 'next/link';
-import { Button } from '@chakra-ui/react';
+import { Button, Spinner } from '@chakra-ui/react';
 import { RepeatIcon } from '@chakra-ui/icons';
 import LikeButton from './likeButton';
 
@@ -65,44 +65,66 @@ const PostsIndex: FC = () => {
                 <RepeatIcon w={6} h={6} color="red.500" />
             </Button>
 
-            {posts.map((post) => {
-                const parsedCreatedAt = new Date(post.createdAt.seconds * 1000);
-                return (
-                    <div className={styles.link} key={post.id}>
-                        <div className={styles.card}>
-                            <Link href={`/postDetail/${post.id}`} passHref>
-                                <a>
-                                    <Image
-                                        src={`${post.downloadUrl}`}
-                                        // この数字を大きくする分には比率は崩れなさそう
-                                        width={1000}
-                                        height={1000}
-                                        objectFit="contain"
-                                        alt={`${post.title}`}
-                                        className={styles.img}
-                                    />
-                                </a>
-                            </Link>
-                            <div className={styles.container}>
-                                <Link href={`/postDetail/${post.id}`} passHref>
-                                    <a>
-                                        <h4>
-                                            <b>{post.title}</b>
-                                        </h4>
-                                        <p>
-                                            {parsedCreatedAt
-                                                .toLocaleString('ja-JP')
-                                                .toString()}
-                                        </p>
-                                        <p>投稿者:{post.authorName}</p>
-                                    </a>
-                                </Link>
-                                <LikeButton postId={post.id} />
+            {posts ? (
+                <>
+                    {posts.map((post) => {
+                        const parsedCreatedAt = new Date(
+                            post.createdAt.seconds * 1000
+                        );
+                        return (
+                            <div className={styles.link} key={post.id}>
+                                <div className={styles.card}>
+                                    <Link
+                                        href={`/postDetail/${post.id}`}
+                                        passHref
+                                    >
+                                        <a>
+                                            <Image
+                                                src={`${post.downloadUrl}`}
+                                                // この数字を大きくする分には比率は崩れなさそう
+                                                width={1000}
+                                                height={1000}
+                                                objectFit="contain"
+                                                alt={`${post.title}`}
+                                                className={styles.img}
+                                            />
+                                        </a>
+                                    </Link>
+                                    <div className={styles.container}>
+                                        <Link
+                                            href={`/postDetail/${post.id}`}
+                                            passHref
+                                        >
+                                            <a>
+                                                <h4>
+                                                    <b>{post.title}</b>
+                                                </h4>
+                                                <p>
+                                                    {parsedCreatedAt
+                                                        .toLocaleString('ja-JP')
+                                                        .toString()}
+                                                </p>
+                                                <p>投稿者:{post.authorName}</p>
+                                            </a>
+                                        </Link>
+                                        <LikeButton postId={post.id} />
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                );
-            })}
+                        );
+                    })}
+                </>
+            ) : (
+                <>
+                    <Spinner
+                        thickness="4px"
+                        speed="0.65s"
+                        emptyColor="gray.200"
+                        color="blue.500"
+                        size="xl"
+                    />
+                </>
+            )}
         </React.Fragment>
     );
 };

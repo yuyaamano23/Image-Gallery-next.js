@@ -3,10 +3,20 @@ import 'firebase/auth';
 import 'firebase/firestore';
 import firebase from 'firebase/app';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
+import { useToast } from '@chakra-ui/react';
 
 const GoogleLoginButton: FC = () => {
+    const toast = useToast();
+
     const createUserIfNotfound = async () => {
         let currentUser = firebase.auth().currentUser;
+        toast({
+            title: 'ログインしました',
+            description: '画像の投稿と、いいねができます',
+            status: 'info',
+            duration: 5000,
+            isClosable: true,
+        });
         const doc = await firebase
             .firestore()
             .collection('users')

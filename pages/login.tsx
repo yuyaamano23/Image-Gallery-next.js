@@ -6,11 +6,13 @@ import Link from 'next/link';
 import { useAuthentication } from 'hooks/authentication';
 import firebase from 'firebase/app';
 import GoogleLoginButton from 'components/googleLogin';
+import { useToast } from '@chakra-ui/react';
 
 const Login: FC = () => {
     const { user } = useAuthentication();
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
+    const toast = useToast();
 
     useEffect(() => {
         user && Router.push('/');
@@ -22,6 +24,13 @@ const Login: FC = () => {
         try {
             //emailとpwでログイン
             await firebase.auth().signInWithEmailAndPassword(email, password);
+            toast({
+                title: 'ログインしました',
+                description: '画像の投稿と、いいねができます',
+                status: 'info',
+                duration: 5000,
+                isClosable: true,
+            });
             Router.push('/');
         } catch (err) {
             alert(err.message);

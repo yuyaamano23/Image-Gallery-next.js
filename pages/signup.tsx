@@ -6,12 +6,14 @@ import { useAuthentication } from 'hooks/authentication';
 import firebase from 'firebase/app';
 import Link from 'next/link';
 import GoogleLoginButton from 'components/googleLogin';
+import { useToast } from '@chakra-ui/react';
 
 const Signup: FC = () => {
     const { user } = useAuthentication();
     const [name, setName] = useState<string>('');
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
+    const toast = useToast();
 
     useEffect(() => {
         user && Router.push('/');
@@ -45,6 +47,13 @@ const Signup: FC = () => {
                             createdAt: new Date(),
                         });
                 });
+            toast({
+                title: '新規ユーザを作成しました',
+                description: '画像の投稿と、いいねができます',
+                status: 'info',
+                duration: 5000,
+                isClosable: true,
+            });
         } catch (err) {
             console.log(err.message);
         }
