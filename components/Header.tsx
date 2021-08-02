@@ -11,6 +11,7 @@ import {
     IconButton,
     IconButtonProps,
     useColorMode,
+    Box,
 } from '@chakra-ui/react';
 import { FaMoon, FaSun } from 'react-icons/fa';
 
@@ -48,45 +49,43 @@ const Header: FC = (props: ColorModeSwitcherProps) => {
         loadUser();
     }, [user]);
     return (
-        <div>
-            <div className="bg-red-500">
-                <Link href="/" passHref>
-                    <Button>
-                        <a>投稿一覧ページへ</a>
-                    </Button>
-                </Link>
-                <header>
-                    <IconButton
-                        size="md"
-                        fontSize="lg"
-                        variant="ghost"
-                        color="current"
-                        marginLeft="2"
-                        onClick={toggleColorMode}
-                        icon={<SwitchIcon />}
-                        aria-label={`Switch to ${text} mode`}
-                        {...props}
-                    />
-                </header>
-                <div>
-                    {user ? (
-                        <div>
-                            <Logout />
-                            <Link href={`/mypage/${user.uid}`} passHref>
-                                <Button>
-                                    <a>マイページ</a>
-                                </Button>
-                            </Link>
-                            <div>ようこそ{stateUser?.name}さん</div>
-                        </div>
-                    ) : (
-                        <Link href="/login" passHref>
-                            <Button>ログインする</Button>
+        <Box boxShadow="2xl" p="6" rounded="md">
+            <Link href="/" passHref>
+                <Button>
+                    <a>投稿一覧ページへ</a>
+                </Button>
+            </Link>
+            <header>
+                <IconButton
+                    size="md"
+                    fontSize="lg"
+                    variant="ghost"
+                    color="current"
+                    marginLeft="2"
+                    onClick={toggleColorMode}
+                    icon={<SwitchIcon />}
+                    aria-label={`Switch to ${text} mode`}
+                    {...props}
+                />
+            </header>
+            <div>
+                {user ? (
+                    <div>
+                        <Logout />
+                        <Link href={`/mypage/${user.uid}`} passHref>
+                            <Button>
+                                <a>マイページ</a>
+                            </Button>
                         </Link>
-                    )}
-                </div>
+                        <div>ようこそ{stateUser?.name}さん</div>
+                    </div>
+                ) : (
+                    <Link href="/login" passHref>
+                        <Button>ログインする</Button>
+                    </Link>
+                )}
             </div>
-        </div>
+        </Box>
     );
 };
 export default Header;
