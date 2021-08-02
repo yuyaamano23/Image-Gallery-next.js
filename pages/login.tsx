@@ -58,11 +58,15 @@ const Login: FC = () => {
         signInFlow: 'popup',
         // We will display Google and Facebook as auth providers.
         signInOptions: [firebase.auth.GoogleAuthProvider.PROVIDER_ID],
+        credentialHelper: 'none',
         // calbacksに以下のように関数を与えることで実行される。
         callbacks: {
             // Avoid redirects after sign-in.
+
             signInSuccessWithAuthResult: () => {
                 createUserIfNotfound();
+                // Booleanを返さなきゃ型エラー起きる
+                return true;
             },
         },
     };
