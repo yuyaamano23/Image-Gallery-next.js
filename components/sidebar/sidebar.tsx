@@ -6,6 +6,9 @@ import {
     Divider,
     Avatar,
     Heading,
+    useColorMode,
+    useColorModeValue,
+    IconButtonProps,
 } from '@chakra-ui/react';
 import {
     FiMenu,
@@ -18,9 +21,17 @@ import {
 } from 'react-icons/fi';
 import { IoPawOutline } from 'react-icons/io5';
 import NavItem from './navItem';
+import { useAuthentication } from 'hooks/authentication';
+import { FaMoon, FaSun } from 'react-icons/fa';
 
-const Sidebar: FC = () => {
+type ColorModeSwitcherProps = Omit<IconButtonProps, 'aria-label'>;
+
+const Sidebar: FC = (props: ColorModeSwitcherProps) => {
     const [navSize, changeNavSize] = useState('large');
+    const { user } = useAuthentication();
+    const { toggleColorMode } = useColorMode();
+    const text = useColorModeValue('dark', 'light');
+    const SwitchIcon = useColorModeValue(FaMoon, FaSun);
     return (
         <React.Fragment>
             <Flex
@@ -51,6 +62,17 @@ const Sidebar: FC = () => {
                             if (navSize == 'small') changeNavSize('large');
                             else changeNavSize('small');
                         }}
+                    />
+                    <IconButton
+                        size="md"
+                        fontSize="lg"
+                        variant="ghost"
+                        color="current"
+                        marginLeft="2"
+                        onClick={toggleColorMode}
+                        icon={<SwitchIcon />}
+                        aria-label={`Switch to ${text} mode`}
+                        {...props}
                     />
                     <NavItem
                         navSize={navSize}
@@ -96,16 +118,18 @@ const Sidebar: FC = () => {
                 >
                     <Divider display={navSize == 'small' ? 'none' : 'flex'} />
                     <Flex mt={4} align="center">
-                        <Avatar size="sm" src="avatar-1.jpg" />
+                        <Avatar
+                            size="md"
+                            src={user?.photoUrl ? `${user?.photoUrl}` : null}
+                        />
                         <Flex
                             flexDir="column"
                             ml={4}
                             display={navSize == 'small' ? 'none' : 'flex'}
                         >
                             <Heading as="h3" size="sm">
-                                Sylwia Weller
+                                {user?.name ? user.name : 'ゲスト'} さん
                             </Heading>
-                            <Text color="gray">Admin</Text>
                         </Flex>
                     </Flex>
                 </Flex>

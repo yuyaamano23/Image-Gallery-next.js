@@ -4,7 +4,10 @@ module.exports = {
     reactStrictMode: true,
     // 外部ドメインを使用するために設定
     images: {
-        domains: ['firebasestorage.googleapis.com'],
+        domains: [
+            'firebasestorage.googleapis.com',
+            'lh3.googleusercontent.com',
+        ],
     },
     distDir: './.next',
     webpack: (config) => {
