@@ -10,6 +10,7 @@ import LikeButton from './likeButton';
 
 const PostsIndex: FC = () => {
     const [posts, setPosts] = useState<Post[]>([]);
+    const [isReloaded, setIsReloaded] = useState<boolean>(true);
 
     useEffect(() => {
         let isMounted = true;
@@ -50,16 +51,17 @@ const PostsIndex: FC = () => {
         }
         // useEffectはasyncが使えないから関数を分けている;
         loadPosts();
+        setIsReloaded(true);
         return () => {
             isMounted = false;
         };
-    }, []);
+    }, [isReloaded]);
 
     return (
         <React.Fragment>
             <Button
                 onClick={() => {
-                    location.reload();
+                    setIsReloaded(false);
                 }}
             >
                 <RepeatIcon w={6} h={6} color="red.500" />
