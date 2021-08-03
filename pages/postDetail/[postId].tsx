@@ -18,6 +18,8 @@ const PostDetail: FC = () => {
     const { user } = useAuthentication();
     const [post, setPost] = useState<Post>(null);
     const [comments, setComments] = useState<Comment[]>([]);
+    const [commentsReloadFlag, setCommentsReloadFlag] =
+        useState<boolean>(false);
     const router = useRouter();
     const query = router.query as Query;
 
@@ -82,7 +84,7 @@ const PostDetail: FC = () => {
         // useEffectはasyncが使えないから関数を分けている;
         loadPost();
         loadComments();
-    }, [query.postId]);
+    }, [query.postId, commentsReloadFlag]);
 
     const createComment = (e) => {
         try {
@@ -106,6 +108,7 @@ const PostDetail: FC = () => {
             });
 
             setValue('');
+            setCommentsReloadFlag(true);
             console.log('コメントを追加しました');
         } catch (err) {
             console.log(err.message);
