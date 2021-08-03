@@ -15,6 +15,7 @@ type MyPostsProps = {
 
 const MyPosts: FC<MyPostsProps> = ({ user }) => {
     const [posts, setPosts] = useState<Post[]>([]);
+    const [isReloaded, setIsReloaded] = useState<boolean>(true);
     const toast = useToast();
 
     useEffect(() => {
@@ -37,10 +38,11 @@ const MyPosts: FC<MyPostsProps> = ({ user }) => {
                 return fetchPost;
             });
             setPosts(fetchPosts);
+            setIsReloaded(true);
         }
         // useEffectはasyncが使えないから関数を分けている;
         loadPosts();
-    }, [user?.uid]);
+    }, [user?.uid, isReloaded]);
 
     async function deletePost(post: Post) {
         const db = firebase.firestore();
@@ -93,6 +95,8 @@ const MyPosts: FC<MyPostsProps> = ({ user }) => {
         desertRef.delete().then(() => {
             console.log('storageから画像を削除しました');
         });
+
+        setIsReloaded(false);
 
         toast({
             title: '投稿を削除しました',
