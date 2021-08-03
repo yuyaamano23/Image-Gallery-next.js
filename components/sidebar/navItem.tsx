@@ -32,7 +32,7 @@ const NavItem: FC<NavItemProps> = ({
             w="100%"
             alignItems={navSize == 'small' ? 'center' : 'flex-start'}
         >
-            <Menu placement="right">
+            <Menu id="1" placement="right">
                 <Link
                     backgroundColor={active && '#AEC8CA'}
                     p={3}
