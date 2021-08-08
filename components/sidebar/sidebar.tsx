@@ -51,28 +51,32 @@ const Sidebar: FC = (props: ColorModeSwitcherProps) => {
                     alignItems={navSize == 'small' ? 'center' : 'flex-start'}
                     as="nav"
                 >
-                    <IconButton
-                        aria-label="change nav size"
-                        background="none"
-                        mt={5}
-                        _hover={{ background: 'none' }}
-                        icon={<FiMenu />}
-                        onClick={() => {
-                            if (navSize == 'small') changeNavSize('large');
-                            else changeNavSize('small');
-                        }}
-                    />
-                    <IconButton
-                        size="md"
-                        fontSize="lg"
-                        variant="ghost"
-                        color="current"
-                        marginLeft="2"
-                        onClick={toggleColorMode}
-                        icon={<SwitchIcon />}
-                        aria-label={`Switch to ${text} mode`}
-                        {...props}
-                    />
+                    <Flex>
+                        <IconButton
+                            size="md"
+                            fontSize="lg"
+                            aria-label="change nav size"
+                            background="none"
+                            mt={5}
+                            _hover={{ background: 'none' }}
+                            icon={<FiMenu />}
+                            onClick={() => {
+                                if (navSize == 'small') changeNavSize('large');
+                                else changeNavSize('small');
+                            }}
+                        />
+                        <IconButton
+                            size="md"
+                            fontSize="lg"
+                            marginTop="20px"
+                            variant="ghost"
+                            color="current"
+                            onClick={toggleColorMode}
+                            icon={<SwitchIcon />}
+                            aria-label={`Switch to ${text} mode`}
+                            {...props}
+                        />
+                    </Flex>
                     <NavItem
                         navSize={navSize}
                         icon={FiHome}
