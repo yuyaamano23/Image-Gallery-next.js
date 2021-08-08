@@ -1,7 +1,6 @@
 import React, { FC, useState } from 'react';
 import {
     Flex,
-    Text,
     IconButton,
     Divider,
     Avatar,
@@ -39,7 +38,7 @@ const Sidebar: FC = (props: ColorModeSwitcherProps) => {
                 left="5"
                 h="95vh"
                 marginTop="2.5vh"
-                boxShadow="0 4px 12px 0 rgba(0, 0, 0, 0.05)"
+                boxShadow="10px 10px 20px 10px rgba(5, 1, 1, 0.05)"
                 borderRadius={navSize == 'small' ? '15px' : '30px'}
                 w={navSize == 'small' ? '75px' : '200px'}
                 flexDir="column"
@@ -77,35 +76,35 @@ const Sidebar: FC = (props: ColorModeSwitcherProps) => {
                     <NavItem
                         navSize={navSize}
                         icon={FiHome}
-                        title="Dashboard"
+                        title="投稿一覧"
                         description="This is the description for the dashboard."
                     />
                     <NavItem
                         navSize={navSize}
                         icon={FiCalendar}
-                        title="Calendar"
+                        title="マイページ"
                         active
                     />
                     <NavItem navSize={navSize} icon={FiUser} title="Clients" />
                     <NavItem
                         navSize={navSize}
                         icon={IoPawOutline}
-                        title="Animals"
+                        title="ログイン"
                     />
                     <NavItem
                         navSize={navSize}
                         icon={FiDollarSign}
-                        title="Stocks"
+                        title="ログアウト"
                     />
                     <NavItem
                         navSize={navSize}
                         icon={FiBriefcase}
-                        title="Reports"
+                        title="これなくしてmargintopでスペースあけよう"
                     />
                     <NavItem
                         navSize={navSize}
                         icon={FiSettings}
-                        title="Settings"
+                        title="お問い合わせ"
                     />
                 </Flex>
 

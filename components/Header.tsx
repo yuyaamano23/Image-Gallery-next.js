@@ -1,5 +1,6 @@
 import React, { FC, useEffect, useState } from 'react';
 import styles from 'styles/components/Header.module.scss';
+import Image from 'next/image';
 import { useAuthentication } from 'hooks/authentication';
 import Logout from 'components/logout';
 import Link from 'next/link';
@@ -83,6 +84,13 @@ const Header: FC = (props: ColorModeSwitcherProps) => {
                             {stateUser ? stateUser.name : <Spinner />}
                             さん
                         </div>
+                        <Image
+                            src={`${user.photoUrl}`}
+                            alt="プロフィール画像"
+                            objectFit="contain"
+                            width={40}
+                            height={40}
+                        />
                     </div>
                 ) : (
                     <Link href="/login" passHref>
