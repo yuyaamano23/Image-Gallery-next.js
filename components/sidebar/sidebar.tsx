@@ -8,6 +8,7 @@ import {
     useColorMode,
     useColorModeValue,
     IconButtonProps,
+    Box,
 } from '@chakra-ui/react';
 import {
     FiMenu,
@@ -36,7 +37,7 @@ const Sidebar: FC = (props: ColorModeSwitcherProps) => {
             <Flex
                 pos="sticky"
                 left="5"
-                h="95vh"
+                h="80vh"
                 marginTop="2.5vh"
                 boxShadow="10px 10px 20px 10px rgba(5, 1, 1, 0.05)"
                 borderRadius={navSize == 'small' ? '15px' : '30px'}
@@ -81,13 +82,13 @@ const Sidebar: FC = (props: ColorModeSwitcherProps) => {
                         navSize={navSize}
                         icon={FiHome}
                         title="投稿一覧"
-                        description="This is the description for the dashboard."
+                        description="他のユーザの投稿を確認できます"
                     />
                     <NavItem
                         navSize={navSize}
                         icon={FiCalendar}
                         title="マイページ"
-                        active
+                        description="今までの投稿、いいねした記事を確認できます"
                     />
                     <NavItem navSize={navSize} icon={FiUser} title="Clients" />
                     <NavItem
@@ -100,15 +101,12 @@ const Sidebar: FC = (props: ColorModeSwitcherProps) => {
                         icon={FiDollarSign}
                         title="ログアウト"
                     />
-                    <NavItem
-                        navSize={navSize}
-                        icon={FiBriefcase}
-                        title="これなくしてmargintopでスペースあけよう"
-                    />
+                    <Box mt={90} />
                     <NavItem
                         navSize={navSize}
                         icon={FiSettings}
                         title="お問い合わせ"
+                        description="googleフォームへ遷移します"
                     />
                 </Flex>
 

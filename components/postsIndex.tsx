@@ -59,13 +59,16 @@ const PostsIndex: FC = () => {
 
     return (
         <React.Fragment>
-            <Button
-                onClick={() => {
-                    setIsReloaded(false);
-                }}
-            >
-                <RepeatIcon w={6} h={6} color="red.500" />
-            </Button>
+            <div className={styles.top}>
+                <h1>投稿一覧ページ</h1>
+                <Button
+                    onClick={() => {
+                        setIsReloaded(false);
+                    }}
+                >
+                    <RepeatIcon w={6} h={6} color="red.500" />
+                </Button>
+            </div>
 
             <div className={styles.flex}>
                 {posts ? (
@@ -86,7 +89,7 @@ const PostsIndex: FC = () => {
                                                     src={`${post.downloadUrl}`}
                                                     // この数字を大きくする分には比率は崩れなさそう
                                                     width={1000}
-                                                    height={1000}
+                                                    height={800}
                                                     objectFit="contain"
                                                     alt={`${post.title}`}
                                                     className={styles.img}

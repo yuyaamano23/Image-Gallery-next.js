@@ -23,8 +23,8 @@ const NavHoverBox: FC<NavHoverBoxProps> = ({ title, icon, description }) => {
             />
             <Flex
                 h={200}
-                w={200}
-                // w="100%"
+                // w={200}
+                w="100%"
                 flexDir="column"
                 alignItems="center"
                 justify="center"
@@ -34,10 +34,10 @@ const NavHoverBox: FC<NavHoverBoxProps> = ({ title, icon, description }) => {
                 textAlign="center"
             >
                 <Icon as={icon} fontSize="3xl" mb={4} />
-                <Heading size="md" fontWeight="normal">
+                <Heading size="md" fontWeight="normal" m={2}>
                     {title}
                 </Heading>
-                <Text>{description}</Text>
+                <Text m={2}>{description}</Text>
             </Flex>
         </>
     );

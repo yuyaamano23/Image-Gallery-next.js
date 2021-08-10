@@ -1,3 +1,9 @@
+.top {
+    display: flex;
+    margin-top: 65px;
+    margin-left: 140px;
+}
+
 .flex {
     width: 100%;
     display: flex;
@@ -8,7 +14,7 @@
 
 .link {
     width: 300px;
-    margin: 40px;
+    margin: 20px 30px 20px;
 }
 .card {
     margin-top: 10px;
