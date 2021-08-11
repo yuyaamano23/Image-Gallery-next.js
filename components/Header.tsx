@@ -127,21 +127,7 @@ const Header: FC = (props: ColorModeSwitcherProps) => {
                     {...props}
                 />
                 <Spacer />
-                <Stack spacing={6}>
-                    <InputGroup>
-                        <InputLeftElement
-                            pointerEvents="none"
-                            // eslint-disable-next-line react/no-children-prop
-                            children={<Search2Icon color="black" />}
-                        />
-                        <Input
-                            placeholder="search words"
-                            color="black"
-                            bg="gray.300"
-                            w={400}
-                        />
-                    </InputGroup>
-                </Stack>
+
                 <Spacer />
                 <Link href="/" passHref>
                     <Button

@@ -4,8 +4,16 @@ import Image from 'next/image';
 import { Post } from 'models/Post';
 import styles from 'styles/components/postsIndex.module.scss';
 import Link from 'next/link';
-import { Button, Flex, Spinner } from '@chakra-ui/react';
-import { RepeatIcon } from '@chakra-ui/icons';
+import {
+    Button,
+    Flex,
+    Input,
+    InputGroup,
+    InputLeftElement,
+    Spinner,
+    Stack,
+} from '@chakra-ui/react';
+import { RepeatIcon, Search2Icon } from '@chakra-ui/icons';
 import LikeButton from './likeButton';
 
 const PostsIndex: FC = () => {
@@ -60,7 +68,6 @@ const PostsIndex: FC = () => {
     return (
         <React.Fragment>
             <div className={styles.top}>
-                <h1>投稿一覧ページ</h1>
                 <Button
                     onClick={() => {
                         setIsReloaded(false);
@@ -68,7 +75,23 @@ const PostsIndex: FC = () => {
                 >
                     <RepeatIcon w={6} h={6} color="red.500" />
                 </Button>
+                <Stack spacing={6}>
+                    <InputGroup>
+                        <InputLeftElement
+                            pointerEvents="none"
+                            // eslint-disable-next-line react/no-children-prop
+                            children={<Search2Icon color="black" />}
+                        />
+                        <Input
+                            placeholder="search words"
+                            color="black"
+                            bg="gray.300"
+                            w={400}
+                        />
+                    </InputGroup>
+                </Stack>
             </div>
+            <h1 className={styles.h1}>投稿一覧ページ</h1>
 
             <div className={styles.flex}>
                 {posts ? (
