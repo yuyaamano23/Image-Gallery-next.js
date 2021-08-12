@@ -60,7 +60,7 @@ const Signup: FC = () => {
     };
 
     return (
-        <div>
+        <div style={{ marginTop: '65px' }}>
             <h2>新規登録</h2>
             <form onSubmit={createUser}>
                 <div className="form-group">

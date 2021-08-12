@@ -20,6 +20,7 @@ export function useAuthentication() {
                 const loginUesr: User = {
                     uid: firebaseUser.uid,
                     name: firebaseUser.displayName,
+                    photoUrl: firebaseUser.photoURL,
                 };
                 setUser(loginUesr);
             } else {

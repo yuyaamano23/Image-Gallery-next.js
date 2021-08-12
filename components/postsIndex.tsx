@@ -4,8 +4,16 @@ import Image from 'next/image';
 import { Post } from 'models/Post';
 import styles from 'styles/components/postsIndex.module.scss';
 import Link from 'next/link';
-import { Button, Spinner } from '@chakra-ui/react';
-import { RepeatIcon } from '@chakra-ui/icons';
+import {
+    Button,
+    Flex,
+    Input,
+    InputGroup,
+    InputLeftElement,
+    Spinner,
+    Stack,
+} from '@chakra-ui/react';
+import { RepeatIcon, Search2Icon } from '@chakra-ui/icons';
 import LikeButton from './likeButton';
 
 const PostsIndex: FC = () => {
@@ -59,74 +67,98 @@ const PostsIndex: FC = () => {
 
     return (
         <React.Fragment>
-            <Button
-                onClick={() => {
-                    setIsReloaded(false);
-                }}
-            >
-                <RepeatIcon w={6} h={6} color="red.500" />
-            </Button>
+            <div className={styles.top}>
+                <Button
+                    onClick={() => {
+                        setIsReloaded(false);
+                    }}
+                >
+                    <RepeatIcon w={6} h={6} color="#58b0b6" />
+                </Button>
+                <Stack spacing={6}>
+                    <InputGroup>
+                        <InputLeftElement
+                            pointerEvents="none"
+                            // eslint-disable-next-line react/no-children-prop
+                            children={<Search2Icon color="black" />}
+                        />
+                        <Input
+                            placeholder="search words"
+                            color="black"
+                            bg="gray.300"
+                            w={400}
+                        />
+                    </InputGroup>
+                </Stack>
+            </div>
+            <h1 className={styles.h1}>投稿一覧ページ</h1>
 
-            {posts ? (
-                <>
-                    {posts.map((post) => {
-                        const parsedCreatedAt = new Date(
-                            post.createdAt.seconds * 1000
-                        );
-                        return (
-                            <div className={styles.link} key={post.id}>
-                                <div className={styles.card}>
-                                    <Link
-                                        href={`/postDetail/${post.id}`}
-                                        passHref
-                                    >
-                                        <a>
-                                            <Image
-                                                src={`${post.downloadUrl}`}
-                                                // この数字を大きくする分には比率は崩れなさそう
-                                                width={1000}
-                                                height={1000}
-                                                objectFit="contain"
-                                                alt={`${post.title}`}
-                                                className={styles.img}
-                                            />
-                                        </a>
-                                    </Link>
-                                    <div className={styles.container}>
+            <div className={styles.flex}>
+                {posts ? (
+                    <>
+                        {posts.map((post) => {
+                            const parsedCreatedAt = new Date(
+                                post.createdAt.seconds * 1000
+                            );
+                            return (
+                                <div className={styles.link} key={post.id}>
+                                    <div className={styles.card}>
                                         <Link
                                             href={`/postDetail/${post.id}`}
                                             passHref
                                         >
                                             <a>
-                                                <h4>
-                                                    <b>{post.title}</b>
-                                                </h4>
-                                                <p>
-                                                    {parsedCreatedAt
-                                                        .toLocaleString('ja-JP')
-                                                        .toString()}
-                                                </p>
-                                                <p>投稿者:{post.authorName}</p>
+                                                <Image
+                                                    src={`${post.downloadUrl}`}
+                                                    // この数字を大きくする分には比率は崩れなさそう
+                                                    width={1000}
+                                                    height={800}
+                                                    objectFit="contain"
+                                                    alt={`${post.title}`}
+                                                    className={styles.img}
+                                                />
                                             </a>
                                         </Link>
-                                        <LikeButton postId={post.id} />
+                                        <div className={styles.container}>
+                                            <Link
+                                                href={`/postDetail/${post.id}`}
+                                                passHref
+                                            >
+                                                <a>
+                                                    <h4>
+                                                        <b>{post.title}</b>
+                                                    </h4>
+                                                    <p>
+                                                        {parsedCreatedAt
+                                                            .toLocaleString(
+                                                                'ja-JP'
+                                                            )
+                                                            .toString()}
+                                                    </p>
+                                                    <p>
+                                                        投稿者:{post.authorName}
+                                                    </p>
+                                                </a>
+                                            </Link>
+                                            <LikeButton postId={post.id} />
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        );
-                    })}
-                </>
-            ) : (
-                <>
-                    <Spinner
-                        thickness="4px"
-                        speed="0.65s"
-                        emptyColor="gray.200"
-                        color="blue.500"
-                        size="xl"
-                    />
-                </>
-            )}
+                            );
+                        })}
+                    </>
+                ) : (
+                    <>
+                        <Spinner
+                            thickness="4px"
+                            speed="0.65s"
+                            emptyColor="gray.200"
+                            color="blue.500"
+                            size="xl"
+                        />
+                    </>
+                )}
+            </div>
         </React.Fragment>
     );
 };

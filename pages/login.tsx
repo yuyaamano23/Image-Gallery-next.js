@@ -38,7 +38,7 @@ const Login: FC = () => {
     };
 
     return (
-        <div>
+        <div style={{ marginTop: '65px' }}>
             <h2>ログイン</h2>
             <form onSubmit={login}>
                 <div className="form-group">

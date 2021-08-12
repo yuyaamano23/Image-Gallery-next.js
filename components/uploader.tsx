@@ -200,7 +200,7 @@ const Uploader: FC = () => {
                 <Tooltip hasArrow label="投稿する" placement="top">
                     <Button
                         onClick={() => setModalIsOpen(!modalIsOpen)}
-                        bgColor="tomato"
+                        bgColor="#82AAAD"
                         style={{
                             position: 'fixed',
                             width: '55px',
