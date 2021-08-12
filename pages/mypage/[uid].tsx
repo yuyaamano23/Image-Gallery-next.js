@@ -49,7 +49,9 @@ const UserMypage: FC = () => {
 
     return (
         <React.Fragment>
-            <div>{user ? user.name : <Spinner />}さんのページ</div>
+            <div style={{ marginTop: '65px' }}>
+                {user ? user.name : <Spinner />}さんのページ
+            </div>
             <Tabs variant="enclosed" id="1">
                 <TabList>
                     <Tab>いままでの投稿</Tab>

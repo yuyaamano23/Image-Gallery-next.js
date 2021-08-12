@@ -23,8 +23,13 @@ import {
     Input,
     Stack,
     Avatar,
+    Menu,
+    MenuButton,
+    Portal,
+    MenuList,
+    MenuItem,
 } from '@chakra-ui/react';
-import { Search2Icon } from '@chakra-ui/icons';
+import { TriangleDownIcon } from '@chakra-ui/icons';
 import { FaMoon, FaSun } from 'react-icons/fa';
 
 type ColorModeSwitcherProps = Omit<IconButtonProps, 'aria-label'>;
@@ -62,54 +67,6 @@ const Header: FC = (props: ColorModeSwitcherProps) => {
         loadUser();
     }, [user]);
     return (
-        // <Box boxShadow="2xl" p="6" rounded="md">
-        //     <Link href="/" passHref>
-        //         <Button>
-        //             <a>投稿一覧ページへ</a>
-        //         </Button>
-        //     </Link>
-        //     <header>
-        //         <IconButton
-        //             size="md"
-        //             fontSize="lg"
-        //             variant="ghost"
-        //             color="current"
-        //             marginLeft="2"
-        //             onClick={toggleColorMode}
-        //             icon={<SwitchIcon />}
-        //             aria-label={`Switch to ${text} mode`}
-        //             {...props}
-        //         />
-        //     </header>
-        //     <div>
-        //         {user ? (
-        //             <div>
-        //                 <Logout />
-        //                 <Link href={`/mypage/${user.uid}`} passHref>
-        //                     <Button>
-        //                         <a>マイページ</a>
-        //                     </Button>
-        //                 </Link>
-        //                 <div>
-        //                     ようこそ
-        //                     {stateUser ? stateUser.name : <Spinner />}
-        //                     さん
-        //                 </div>
-        //                 <Image
-        //                     src={`${user.photoUrl}`}
-        //                     alt="プロフィール画像"
-        //                     objectFit="contain"
-        //                     width={40}
-        //                     height={40}
-        //                 />
-        //             </div>
-        //         ) : (
-        //             <Link href="/login" passHref>
-        //                 <Button>ログインする</Button>
-        //             </Link>
-        //         )}
-        //     </div>
-        // </Box>
         <React.Fragment>
             <Box className={styles.wrapper} bg={color}>
                 <Box p="2">
@@ -139,6 +96,40 @@ const Header: FC = (props: ColorModeSwitcherProps) => {
                         <a>投稿一覧ページへ</a>
                     </Button>
                 </Link>
+
+                {user ? (
+                    <Menu>
+                        <MenuButton
+                            w={10}
+                            h={10}
+                            borderRadius={6}
+                            _hover={{
+                                bg: 'gray.300',
+                            }}
+                        >
+                            <TriangleDownIcon boxSize={4} m={3} />
+                        </MenuButton>
+                        <Portal>
+                            <MenuList>
+                                <MenuItem>
+                                    <Link href={`/mypage/${user.uid}`} passHref>
+                                        <a>マイページ</a>
+                                    </Link>
+                                </MenuItem>
+                                <Divider />
+                                <MenuItem>
+                                    <Logout />
+                                </MenuItem>
+                                <Divider />
+                                <MenuItem>お問い合わせ</MenuItem>
+                            </MenuList>
+                        </Portal>
+                    </Menu>
+                ) : (
+                    <Link href="/login" passHref>
+                        <Button>ログインする</Button>
+                    </Link>
+                )}
                 <Avatar
                     size="sm"
                     src={user?.photoUrl ? `${user?.photoUrl}` : null}

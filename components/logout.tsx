@@ -23,9 +23,9 @@ const Logout: FC = () => {
 
     return (
         <Link href="/" passHref>
-            <Button onClick={logout}>
+            <div onClick={logout}>
                 <a>ログアウト</a>
-            </Button>
+            </div>
         </Link>
     );
 };

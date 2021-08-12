@@ -73,7 +73,7 @@ const PostsIndex: FC = () => {
                         setIsReloaded(false);
                     }}
                 >
-                    <RepeatIcon w={6} h={6} color="red.500" />
+                    <RepeatIcon w={6} h={6} color="#58b0b6" />
                 </Button>
                 <Stack spacing={6}>
                     <InputGroup>
