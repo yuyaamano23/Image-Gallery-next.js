@@ -6,6 +6,7 @@ import styles from 'styles/components/postsIndex.module.scss';
 import Link from 'next/link';
 import {
     Button,
+    Divider,
     Flex,
     Input,
     InputGroup,
@@ -103,41 +104,52 @@ const PostsIndex: FC = () => {
                             return (
                                 <div className={styles.link} key={post.id}>
                                     <div className={styles.card}>
-                                        <Link
-                                            href={`/postDetail/${post.id}`}
-                                            passHref
-                                        >
-                                            <a>
-                                                <Image
-                                                    src={`${post.downloadUrl}`}
-                                                    // この数字を大きくする分には比率は崩れなさそう
-                                                    width={1000}
-                                                    height={800}
-                                                    objectFit="contain"
-                                                    alt={`${post.title}`}
-                                                    className={styles.img}
-                                                />
-                                            </a>
-                                        </Link>
+                                        <div className={styles.imageBlock}>
+                                            <Link
+                                                href={`/postDetail/${post.id}`}
+                                                passHref
+                                            >
+                                                <a>
+                                                    <Image
+                                                        src={`${post.downloadUrl}`}
+                                                        // この数字を大きくする分には比率は崩れなさそう
+                                                        width={1000}
+                                                        height={680}
+                                                        objectFit="contain"
+                                                        alt={`${post.title}`}
+                                                        className={styles.img}
+                                                    />
+                                                </a>
+                                            </Link>
+                                        </div>
                                         <div className={styles.container}>
                                             <Link
                                                 href={`/postDetail/${post.id}`}
                                                 passHref
                                             >
                                                 <a>
-                                                    <h4>
-                                                        <b>{post.title}</b>
+                                                    <h4
+                                                        className={styles.title}
+                                                    >
+                                                        <b>『{post.title}』</b>
                                                     </h4>
-                                                    <p>
-                                                        {parsedCreatedAt
-                                                            .toLocaleString(
-                                                                'ja-JP'
-                                                            )
-                                                            .toString()}
-                                                    </p>
-                                                    <p>
-                                                        投稿者:{post.authorName}
-                                                    </p>
+                                                    <div
+                                                        className={
+                                                            styles.imgInfo
+                                                        }
+                                                    >
+                                                        <p>
+                                                            {parsedCreatedAt
+                                                                .toLocaleString(
+                                                                    'ja-JP'
+                                                                )
+                                                                .toString()}
+                                                        </p>
+                                                        <p>
+                                                            投稿者:
+                                                            {post.authorName}
+                                                        </p>
+                                                    </div>
                                                 </a>
                                             </Link>
                                             <LikeButton postId={post.id} />
