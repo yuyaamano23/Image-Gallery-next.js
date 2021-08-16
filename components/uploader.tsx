@@ -247,7 +247,7 @@ const Uploader: FC = () => {
             >
                 <ModalOverlay />
                 <ModalContent>
-                    <ModalHeader>Create your account</ModalHeader>
+                    <ModalHeader>画像をアップロードする</ModalHeader>
                     <ModalCloseButton />
                     <ModalBody pb={6}>
                         <div

@@ -70,7 +70,7 @@ const Header: FC = (props: ColorModeSwitcherProps) => {
         <React.Fragment>
             <Box className={styles.wrapper} bg={color}>
                 <Box p="2">
-                    <Heading size="md">Image Garally By Next.js</Heading>
+                    <Heading size="md">Image Gallery By Next.js</Heading>
                 </Box>
                 <IconButton
                     size="md"
@@ -121,13 +121,17 @@ const Header: FC = (props: ColorModeSwitcherProps) => {
                                     <Logout />
                                 </MenuItem>
                                 <Divider />
-                                <MenuItem>お問い合わせ</MenuItem>
+                                <MenuItem>
+                                    <Link href="https://docs.google.com/forms/d/e/1FAIpQLSfE2qcpGN0Fbytipv6hxljZizMnM050vnyQhf4xVgD_FUsmDg/viewform?usp=sf_link">
+                                        <a target="_blank">お問い合わせ</a>
+                                    </Link>
+                                </MenuItem>
                             </MenuList>
                         </Portal>
                     </Menu>
                 ) : (
                     <Link href="/login" passHref>
-                        <Button>ログインする</Button>
+                        <Button m={3}>ログインする</Button>
                     </Link>
                 )}
                 <Avatar
