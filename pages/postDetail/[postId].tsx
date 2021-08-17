@@ -187,23 +187,30 @@ const PostDetail: FC = () => {
                                 </div>
                             </div>
                         </div>
-                        <Text mb="8px">コメントを投稿する</Text>
-                        <Textarea
-                            value={value}
-                            onChange={handleInputChange}
-                            placeholder="くそみてぃな写真ですね"
-                            size="sm"
-                            style={{ width: '500px', marginBottom: '30px' }}
-                        />
-                        <Button
-                            onClick={createComment}
-                            bgColor="tomato"
-                            style={{
-                                opacity: '0.7',
-                            }}
-                        >
-                            追加する
-                        </Button>
+                        {user && (
+                            <>
+                                <Text mb="8px">コメントを投稿する</Text>
+                                <Textarea
+                                    value={value}
+                                    onChange={handleInputChange}
+                                    placeholder="くそみてぃな写真ですね"
+                                    size="sm"
+                                    style={{
+                                        width: '500px',
+                                        marginBottom: '30px',
+                                    }}
+                                />
+                                <Button
+                                    onClick={createComment}
+                                    bgColor="tomato"
+                                    style={{
+                                        opacity: '0.7',
+                                    }}
+                                >
+                                    追加する
+                                </Button>
+                            </>
+                        )}
                     </Box>
                     <h1 className={styles.similarImg}>似ている画像</h1>
                 </div>
