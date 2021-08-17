@@ -10,8 +10,8 @@ type Props = {
 export function Layout({ children, ...props }: Props) {
     const bgColor = useColorModeValue('rgba(245, 245, 245, 0.877)', 'gray.600');
     return (
-        <div className={styles.wrapper} {...props}>
-            <Box bg={bgColor}>
+        <div {...props}>
+            <Box h="100vh" bg={bgColor}>
                 <Header />
                 {children}
             </Box>

@@ -165,8 +165,18 @@ const PostDetail: FC = () => {
                                                 className={styles.comment}
                                                 key={comment.id}
                                             >
-                                                <p>{comment.body}</p>
-                                                <p>
+                                                <p
+                                                    className={
+                                                        styles.commentBody
+                                                    }
+                                                >
+                                                    {comment.body}
+                                                </p>
+                                                <p
+                                                    className={
+                                                        styles.commentDate
+                                                    }
+                                                >
                                                     {parsedCreatedAt
                                                         .toLocaleString('ja-JP')
                                                         .toString()}
@@ -183,7 +193,7 @@ const PostDetail: FC = () => {
                             onChange={handleInputChange}
                             placeholder="くそみてぃな写真ですね"
                             size="sm"
-                            style={{ width: '500px' }}
+                            style={{ width: '500px', marginBottom: '30px' }}
                         />
                         <Button
                             onClick={createComment}
