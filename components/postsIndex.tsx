@@ -5,6 +5,7 @@ import { Post } from 'models/Post';
 import styles from 'styles/components/postsIndex.module.scss';
 import Link from 'next/link';
 import {
+    Box,
     Button,
     Divider,
     Flex,
@@ -13,6 +14,7 @@ import {
     InputLeftElement,
     Spinner,
     Stack,
+    useColorModeValue,
 } from '@chakra-ui/react';
 import { RepeatIcon, Search2Icon } from '@chakra-ui/icons';
 import LikeButton from './likeButton';
@@ -20,6 +22,7 @@ import LikeButton from './likeButton';
 const PostsIndex: FC = () => {
     const [posts, setPosts] = useState<Post[]>([]);
     const [isReloaded, setIsReloaded] = useState<boolean>(true);
+    const cardBg = useColorModeValue('white', 'gray.800');
 
     useEffect(() => {
         let isMounted = true;
@@ -103,58 +106,68 @@ const PostsIndex: FC = () => {
                             );
                             return (
                                 <div className={styles.link} key={post.id}>
-                                    <div className={styles.card}>
-                                        <div className={styles.imageBlock}>
-                                            <Link
-                                                href={`/postDetail/${post.id}`}
-                                                passHref
-                                            >
-                                                <a>
-                                                    <Image
-                                                        src={`${post.downloadUrl}`}
-                                                        // この数字を大きくする分には比率は崩れなさそう
-                                                        width={1000}
-                                                        height={680}
-                                                        objectFit="contain"
-                                                        alt={`${post.title}`}
-                                                        className={styles.img}
-                                                    />
-                                                </a>
-                                            </Link>
+                                    <Box bg={cardBg}>
+                                        <div className={styles.card}>
+                                            <div className={styles.imageBlock}>
+                                                <Link
+                                                    href={`/postDetail/${post.id}`}
+                                                    passHref
+                                                >
+                                                    <a>
+                                                        <Image
+                                                            src={`${post.downloadUrl}`}
+                                                            // この数字を大きくする分には比率は崩れなさそう
+                                                            width={1000}
+                                                            height={680}
+                                                            objectFit="contain"
+                                                            alt={`${post.title}`}
+                                                            className={
+                                                                styles.img
+                                                            }
+                                                        />
+                                                    </a>
+                                                </Link>
+                                            </div>
+                                            <div className={styles.container}>
+                                                <Link
+                                                    href={`/postDetail/${post.id}`}
+                                                    passHref
+                                                >
+                                                    <a>
+                                                        <h4
+                                                            className={
+                                                                styles.title
+                                                            }
+                                                        >
+                                                            <b>
+                                                                『{post.title}』
+                                                            </b>
+                                                        </h4>
+                                                        <div
+                                                            className={
+                                                                styles.imgInfo
+                                                            }
+                                                        >
+                                                            <p>
+                                                                {parsedCreatedAt
+                                                                    .toLocaleString(
+                                                                        'ja-JP'
+                                                                    )
+                                                                    .toString()}
+                                                            </p>
+                                                            <p>
+                                                                投稿者:
+                                                                {
+                                                                    post.authorName
+                                                                }
+                                                            </p>
+                                                        </div>
+                                                    </a>
+                                                </Link>
+                                                <LikeButton postId={post.id} />
+                                            </div>
                                         </div>
-                                        <div className={styles.container}>
-                                            <Link
-                                                href={`/postDetail/${post.id}`}
-                                                passHref
-                                            >
-                                                <a>
-                                                    <h4
-                                                        className={styles.title}
-                                                    >
-                                                        <b>『{post.title}』</b>
-                                                    </h4>
-                                                    <div
-                                                        className={
-                                                            styles.imgInfo
-                                                        }
-                                                    >
-                                                        <p>
-                                                            {parsedCreatedAt
-                                                                .toLocaleString(
-                                                                    'ja-JP'
-                                                                )
-                                                                .toString()}
-                                                        </p>
-                                                        <p>
-                                                            投稿者:
-                                                            {post.authorName}
-                                                        </p>
-                                                    </div>
-                                                </a>
-                                            </Link>
-                                            <LikeButton postId={post.id} />
-                                        </div>
-                                    </div>
+                                    </Box>
                                 </div>
                             );
                         })}

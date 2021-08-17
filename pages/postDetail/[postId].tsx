@@ -5,7 +5,13 @@ import { useRouter } from 'next/router';
 import firebase from 'firebase/app';
 import styles from 'styles/pages/postId.module.scss';
 import Image from 'next/image';
-import { Textarea, Text, Button } from '@chakra-ui/react';
+import {
+    Textarea,
+    Text,
+    Button,
+    useColorModeValue,
+    Box,
+} from '@chakra-ui/react';
 import { useAuthentication } from 'hooks/authentication';
 import { AddIcon, ChatIcon } from '@chakra-ui/icons';
 import LikeButton from 'components/likeButton';
@@ -22,6 +28,7 @@ const PostDetail: FC = () => {
         useState<boolean>(false);
     const router = useRouter();
     const query = router.query as Query;
+    const wrapperBg = useColorModeValue('white', 'gray.800');
 
     let [value, setValue] = React.useState('');
 
@@ -120,28 +127,30 @@ const PostDetail: FC = () => {
             {post ? (
                 <div>
                     画像詳細ページです
-                    <div className={styles.card}>
-                        <Image
-                            src={`${post.downloadUrl}`}
-                            // この数字を大きくする分には比率は崩れなさそう
-                            width={1000}
-                            height={1000}
-                            objectFit="contain"
-                            alt={`${post.title}`}
-                            className={styles.img}
-                        />
-                        <div className={styles.container}>
-                            <h4>
-                                <b>{post.title}</b>
-                            </h4>
-                            <p>
-                                {post.createdAt
-                                    .toLocaleString('ja-JP')
-                                    .toString()}
-                            </p>
-                            <p>投稿者:{post.authorName}</p>
-                            <LikeButton postId={post.id} />
-                        </div>
+                    <div className={styles.wrapper}>
+                        <Box bg={wrapperBg}>
+                            <div className={styles.left}>
+                                <Image
+                                    src={`${post.downloadUrl}`}
+                                    // この数字を大きくする分には比率は崩れなさそう
+                                    width={1000}
+                                    height={1000}
+                                    objectFit="contain"
+                                    alt={`${post.title}`}
+                                    className={styles.img}
+                                />
+                            </div>
+                            <div className={styles.right}>
+                                <p>{post.title}</p>
+                                <p>
+                                    {post.createdAt
+                                        .toLocaleString('ja-JP')
+                                        .toString()}
+                                </p>
+                                <p>投稿者:{post.authorName}</p>
+                                <LikeButton postId={post.id} />
+                            </div>
+                        </Box>
                     </div>
                     <div>
                         <Text mb="8px">【コメント一覧】</Text>
@@ -184,6 +193,7 @@ const PostDetail: FC = () => {
                             追加する
                         </Button>
                     </div>
+                    <h1>似ている画像</h1>
                 </div>
             ) : (
                 'ロード中...'
