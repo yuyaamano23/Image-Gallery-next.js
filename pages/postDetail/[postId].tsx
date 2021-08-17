@@ -15,6 +15,7 @@ import {
 import { useAuthentication } from 'hooks/authentication';
 import { AddIcon, ChatIcon } from '@chakra-ui/icons';
 import LikeButton from 'components/likeButton';
+import { comment } from 'postcss';
 
 type Query = {
     postId: string;
@@ -87,6 +88,7 @@ const PostDetail: FC = () => {
                 return fetchComment;
             });
             setComments(fetchComments);
+            setCommentsReloadFlag(false);
         }
         // useEffectはasyncが使えないから関数を分けている;
         loadPost();
@@ -128,52 +130,53 @@ const PostDetail: FC = () => {
                 <div>
                     画像詳細ページです
                     <Box className={styles.wrapper} bg={wrapperBg}>
-                        <div className={styles.left}>
-                            <Image
-                                src={`${post.downloadUrl}`}
-                                // この数字を大きくする分には比率は崩れなさそう
-                                width={1000}
-                                height={1000}
-                                objectFit="contain"
-                                alt={`${post.title}`}
-                                className={styles.img}
-                            />
-                        </div>
-                        <div className={styles.right}>
-                            <p>{post.title}</p>
-                            <p>
-                                {post.createdAt
-                                    .toLocaleString('ja-JP')
-                                    .toString()}
-                            </p>
-                            <p>投稿者:{post.authorName}</p>
-                            {/* 詳細ページはアイコンでかくする */}
-                            <LikeButton postId={post.id} iconSize="45" />
-                        </div>
-                    </Box>
-                    <div>
-                        <Text mb="8px">【コメント一覧】</Text>
-                        {comments.map((comment) => {
-                            const parsedCreatedAt = new Date(
-                                comment.createdAt.seconds * 1000
-                            );
-                            return (
-                                <div
-                                    className={styles.comment}
-                                    key={comment.id}
-                                >
-                                    <ChatIcon w={6} h={6} />
-                                    <p>{comment.body}</p>
-                                    <p>
-                                        {parsedCreatedAt
-                                            .toLocaleString('ja-JP')
-                                            .toString()}
-                                    </p>
+                        <div className={styles.flex}>
+                            <div className={styles.left}>
+                                <Image
+                                    src={`${post.downloadUrl}`}
+                                    // この数字を大きくする分には比率は崩れなさそう
+                                    width={1000}
+                                    height={1000}
+                                    objectFit="contain"
+                                    alt={`${post.title}`}
+                                    className={styles.img}
+                                />
+                            </div>
+                            <div className={styles.right}>
+                                <p className={styles.title}>『{post.title}』</p>
+                                <p>
+                                    {post.createdAt
+                                        .toLocaleString('ja-JP')
+                                        .toString()}
+                                </p>
+                                <p>投稿者:{post.authorName}</p>
+                                {/* 詳細ページはアイコンでかくする */}
+                                <LikeButton postId={post.id} iconSize="45" />
+                                <Text className={styles.commentTitle}>
+                                    コメント:{comments.length}件
+                                </Text>
+                                <div className={styles.commentWrapper}>
+                                    {comments.map((comment) => {
+                                        const parsedCreatedAt = new Date(
+                                            comment.createdAt.seconds * 1000
+                                        );
+                                        return (
+                                            <div
+                                                className={styles.comment}
+                                                key={comment.id}
+                                            >
+                                                <p>{comment.body}</p>
+                                                <p>
+                                                    {parsedCreatedAt
+                                                        .toLocaleString('ja-JP')
+                                                        .toString()}
+                                                </p>
+                                            </div>
+                                        );
+                                    })}
                                 </div>
-                            );
-                        })}
-                    </div>
-                    <div>
+                            </div>
+                        </div>
                         <Text mb="8px">コメントを投稿する</Text>
                         <Textarea
                             value={value}
@@ -191,8 +194,8 @@ const PostDetail: FC = () => {
                         >
                             追加する
                         </Button>
-                    </div>
-                    <h1>似ている画像</h1>
+                    </Box>
+                    <h1 className={styles.similarImg}>似ている画像</h1>
                 </div>
             ) : (
                 'ロード中...'

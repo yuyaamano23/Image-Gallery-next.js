@@ -6,6 +6,9 @@
     transition: 0.3s;
     border-radius: 20px;
     text-align: center;
+}
+
+.flex {
     display: flex;
 }
 
@@ -18,20 +21,37 @@
 
 .right {
     padding: 30px;
+    margin: 0 auto;
 }
 
+.title {
+    font-size: 55px;
+    font-weight: bold;
+}
+
+.commentTitle {
+    font-size: large;
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+.commentWrapper {
+    height: 250px;
+    overflow: scroll;
+    white-space: nowrap;
+}
 .comment {
-    /* Add shadows to create the "card" effect */
-    margin-top: 5px;
-    width: 700px;
-    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+    margin-top: 15px;
+    width: 400px;
     transition: 0.3s;
-    border-radius: 5px;
+    border-radius: 15px;
     border: 1px solid;
     border-color: #c9c9ca;
 }
 
-/* On mouse-over, add a deeper shadow */
-.comment:hover {
-    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.2);
+.similarImg {
+    font-size: large;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 20px;
 }

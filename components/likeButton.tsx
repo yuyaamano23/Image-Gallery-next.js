@@ -95,7 +95,7 @@ const LikeButton: FC<PostIdProps> = ({ postId, iconSize = '22' }) => {
     };
 
     return (
-        <Box display="flex" alignItems="center" color="gray.500">
+        <Box display="flex" color="gray.500">
             <Tooltip
                 label={user ? 'いいね' : 'いいねするにはログインが必要です'}
                 bg="gray.400"
