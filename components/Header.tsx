@@ -31,6 +31,7 @@ import {
 } from '@chakra-ui/react';
 import { TriangleDownIcon } from '@chakra-ui/icons';
 import { FaMoon, FaSun } from 'react-icons/fa';
+import { AiFillGithub } from 'react-icons/ai';
 
 type ColorModeSwitcherProps = Omit<IconButtonProps, 'aria-label'>;
 
@@ -70,7 +71,7 @@ const Header: FC = (props: ColorModeSwitcherProps) => {
         <React.Fragment>
             <Box className={styles.wrapper} bg={color}>
                 <Box p="2">
-                    <Heading size="md">Image Garally By Next.js</Heading>
+                    <Heading size="md">Image Gallery By Next.js</Heading>
                 </Box>
                 <IconButton
                     size="md"
@@ -83,8 +84,23 @@ const Header: FC = (props: ColorModeSwitcherProps) => {
                     aria-label={`Switch to ${text} mode`}
                     {...props}
                 />
-                <Spacer />
-
+                <Link
+                    href="https://github.com/yuyaamano23/Image-Gallery-next.js"
+                    passHref
+                >
+                    <a target="_blank">
+                        <IconButton
+                            size="md"
+                            fontSize="24"
+                            variant="ghost"
+                            color="current"
+                            marginLeft="2"
+                            icon={<AiFillGithub />}
+                            aria-label={`Switch to ${text} mode`}
+                            {...props}
+                        />
+                    </a>
+                </Link>
                 <Spacer />
                 <Link href="/" passHref>
                     <Button
@@ -96,7 +112,6 @@ const Header: FC = (props: ColorModeSwitcherProps) => {
                         <a>投稿一覧ページへ</a>
                     </Button>
                 </Link>
-
                 {user ? (
                     <Menu>
                         <MenuButton
@@ -121,13 +136,17 @@ const Header: FC = (props: ColorModeSwitcherProps) => {
                                     <Logout />
                                 </MenuItem>
                                 <Divider />
-                                <MenuItem>お問い合わせ</MenuItem>
+                                <MenuItem>
+                                    <Link href="https://docs.google.com/forms/d/e/1FAIpQLSfE2qcpGN0Fbytipv6hxljZizMnM050vnyQhf4xVgD_FUsmDg/viewform?usp=sf_link">
+                                        <a target="_blank">お問い合わせ</a>
+                                    </Link>
+                                </MenuItem>
                             </MenuList>
                         </Portal>
                     </Menu>
                 ) : (
                     <Link href="/login" passHref>
-                        <Button>ログインする</Button>
+                        <Button m={3}>ログインする</Button>
                     </Link>
                 )}
                 <Avatar

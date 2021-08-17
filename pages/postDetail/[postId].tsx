@@ -5,10 +5,17 @@ import { useRouter } from 'next/router';
 import firebase from 'firebase/app';
 import styles from 'styles/pages/postId.module.scss';
 import Image from 'next/image';
-import { Textarea, Text, Button } from '@chakra-ui/react';
+import {
+    Textarea,
+    Text,
+    Button,
+    useColorModeValue,
+    Box,
+} from '@chakra-ui/react';
 import { useAuthentication } from 'hooks/authentication';
 import { AddIcon, ChatIcon } from '@chakra-ui/icons';
 import LikeButton from 'components/likeButton';
+import { comment } from 'postcss';
 
 type Query = {
     postId: string;
@@ -22,6 +29,7 @@ const PostDetail: FC = () => {
         useState<boolean>(false);
     const router = useRouter();
     const query = router.query as Query;
+    const wrapperBg = useColorModeValue('white', 'gray.800');
 
     let [value, setValue] = React.useState('');
 
@@ -80,6 +88,7 @@ const PostDetail: FC = () => {
                 return fetchComment;
             });
             setComments(fetchComments);
+            setCommentsReloadFlag(false);
         }
         // useEffectはasyncが使えないから関数を分けている;
         loadPost();
@@ -120,70 +129,90 @@ const PostDetail: FC = () => {
             {post ? (
                 <div>
                     画像詳細ページです
-                    <div className={styles.card}>
-                        <Image
-                            src={`${post.downloadUrl}`}
-                            // この数字を大きくする分には比率は崩れなさそう
-                            width={1000}
-                            height={1000}
-                            objectFit="contain"
-                            alt={`${post.title}`}
-                            className={styles.img}
-                        />
-                        <div className={styles.container}>
-                            <h4>
-                                <b>{post.title}</b>
-                            </h4>
-                            <p>
-                                {post.createdAt
-                                    .toLocaleString('ja-JP')
-                                    .toString()}
-                            </p>
-                            <p>投稿者:{post.authorName}</p>
-                            <LikeButton postId={post.id} />
-                        </div>
-                    </div>
-                    <div>
-                        <Text mb="8px">【コメント一覧】</Text>
-                        {comments.map((comment) => {
-                            const parsedCreatedAt = new Date(
-                                comment.createdAt.seconds * 1000
-                            );
-                            return (
-                                <div
-                                    className={styles.comment}
-                                    key={comment.id}
-                                >
-                                    <ChatIcon w={6} h={6} />
-                                    <p>{comment.body}</p>
-                                    <p>
-                                        {parsedCreatedAt
-                                            .toLocaleString('ja-JP')
-                                            .toString()}
-                                    </p>
+                    <Box className={styles.wrapper} bg={wrapperBg}>
+                        <div className={styles.flex}>
+                            <div className={styles.left}>
+                                <Image
+                                    src={`${post.downloadUrl}`}
+                                    // この数字を大きくする分には比率は崩れなさそう
+                                    width={1000}
+                                    height={1000}
+                                    objectFit="contain"
+                                    alt={`${post.title}`}
+                                    className={styles.img}
+                                />
+                            </div>
+                            <div className={styles.right}>
+                                <p className={styles.title}>『{post.title}』</p>
+                                <p>
+                                    {post.createdAt
+                                        .toLocaleString('ja-JP')
+                                        .toString()}
+                                </p>
+                                <p>投稿者:{post.authorName}</p>
+                                {/* 詳細ページはアイコンでかくする */}
+                                <LikeButton postId={post.id} iconSize="45" />
+                                <Text className={styles.commentTitle}>
+                                    コメント:{comments.length}件
+                                </Text>
+                                <div className={styles.commentWrapper}>
+                                    {comments.map((comment) => {
+                                        const parsedCreatedAt = new Date(
+                                            comment.createdAt.seconds * 1000
+                                        );
+                                        return (
+                                            <div
+                                                className={styles.comment}
+                                                key={comment.id}
+                                            >
+                                                <p
+                                                    className={
+                                                        styles.commentBody
+                                                    }
+                                                >
+                                                    {comment.body}
+                                                </p>
+                                                <p
+                                                    className={
+                                                        styles.commentDate
+                                                    }
+                                                >
+                                                    {parsedCreatedAt
+                                                        .toLocaleString('ja-JP')
+                                                        .toString()}
+                                                </p>
+                                            </div>
+                                        );
+                                    })}
                                 </div>
-                            );
-                        })}
-                    </div>
-                    <div>
-                        <Text mb="8px">コメントを投稿する</Text>
-                        <Textarea
-                            value={value}
-                            onChange={handleInputChange}
-                            placeholder="くそみてぃな写真ですね"
-                            size="sm"
-                            style={{ width: '500px' }}
-                        />
-                        <Button
-                            onClick={createComment}
-                            bgColor="tomato"
-                            style={{
-                                opacity: '0.7',
-                            }}
-                        >
-                            追加する
-                        </Button>
-                    </div>
+                            </div>
+                        </div>
+                        {user && (
+                            <>
+                                <Text mb="8px">コメントを投稿する</Text>
+                                <Textarea
+                                    value={value}
+                                    onChange={handleInputChange}
+                                    placeholder="くそみてぃな写真ですね"
+                                    size="sm"
+                                    style={{
+                                        width: '500px',
+                                        marginBottom: '30px',
+                                    }}
+                                />
+                                <Button
+                                    onClick={createComment}
+                                    bgColor="tomato"
+                                    style={{
+                                        opacity: '0.7',
+                                    }}
+                                >
+                                    追加する
+                                </Button>
+                            </>
+                        )}
+                    </Box>
+                    <h1 className={styles.similarImg}>似ている画像</h1>
                 </div>
             ) : (
                 'ロード中...'

@@ -13,9 +13,10 @@ export type LikeButtonWithCountProps = {
 
 export type PostIdProps = {
     postId: string;
+    iconSize?: string;
 };
 
-const LikeButton: FC<PostIdProps> = ({ postId }) => {
+const LikeButton: FC<PostIdProps> = ({ postId, iconSize = '22' }) => {
     const { user } = useAuthentication();
     // userId,postIdのref型
     const userRef = firebase.firestore().collection('users').doc(user?.uid);
@@ -94,7 +95,7 @@ const LikeButton: FC<PostIdProps> = ({ postId }) => {
     };
 
     return (
-        <Box display="flex" alignItems="center" color="gray.500">
+        <Box display="flex" color="gray.500">
             <Tooltip
                 label={user ? 'いいね' : 'いいねするにはログインが必要です'}
                 bg="gray.400"
@@ -104,7 +105,7 @@ const LikeButton: FC<PostIdProps> = ({ postId }) => {
                     <Icon
                         as={isLike ? AiFillHeart : AiOutlineHeart}
                         mr="2.5"
-                        fontSize="22px"
+                        fontSize={iconSize}
                         color={isLike ? 'red.400' : ''}
                     />
                 </Text>
