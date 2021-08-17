@@ -31,6 +31,7 @@ import {
 } from '@chakra-ui/react';
 import { TriangleDownIcon } from '@chakra-ui/icons';
 import { FaMoon, FaSun } from 'react-icons/fa';
+import { AiFillGithub } from 'react-icons/ai';
 
 type ColorModeSwitcherProps = Omit<IconButtonProps, 'aria-label'>;
 
@@ -83,8 +84,23 @@ const Header: FC = (props: ColorModeSwitcherProps) => {
                     aria-label={`Switch to ${text} mode`}
                     {...props}
                 />
-                <Spacer />
-
+                <Link
+                    href="https://github.com/yuyaamano23/Image-Gallery-next.js"
+                    passHref
+                >
+                    <a target="_blank">
+                        <IconButton
+                            size="md"
+                            fontSize="24"
+                            variant="ghost"
+                            color="current"
+                            marginLeft="2"
+                            icon={<AiFillGithub />}
+                            aria-label={`Switch to ${text} mode`}
+                            {...props}
+                        />
+                    </a>
+                </Link>
                 <Spacer />
                 <Link href="/" passHref>
                     <Button
@@ -96,7 +112,6 @@ const Header: FC = (props: ColorModeSwitcherProps) => {
                         <a>投稿一覧ページへ</a>
                     </Button>
                 </Link>
-
                 {user ? (
                     <Menu>
                         <MenuButton

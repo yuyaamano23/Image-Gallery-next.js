@@ -147,6 +147,7 @@ const PostDetail: FC = () => {
                                     .toString()}
                             </p>
                             <p>投稿者:{post.authorName}</p>
+                            {/* 詳細ページはアイコンでかくする */}
                             <LikeButton postId={post.id} iconSize="45" />
                         </div>
                     </Box>
