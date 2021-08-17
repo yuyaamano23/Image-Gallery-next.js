@@ -127,31 +127,29 @@ const PostDetail: FC = () => {
             {post ? (
                 <div>
                     画像詳細ページです
-                    <div className={styles.wrapper}>
-                        <Box bg={wrapperBg}>
-                            <div className={styles.left}>
-                                <Image
-                                    src={`${post.downloadUrl}`}
-                                    // この数字を大きくする分には比率は崩れなさそう
-                                    width={1000}
-                                    height={1000}
-                                    objectFit="contain"
-                                    alt={`${post.title}`}
-                                    className={styles.img}
-                                />
-                            </div>
-                            <div className={styles.right}>
-                                <p>{post.title}</p>
-                                <p>
-                                    {post.createdAt
-                                        .toLocaleString('ja-JP')
-                                        .toString()}
-                                </p>
-                                <p>投稿者:{post.authorName}</p>
-                                <LikeButton postId={post.id} />
-                            </div>
-                        </Box>
-                    </div>
+                    <Box className={styles.wrapper} bg={wrapperBg}>
+                        <div className={styles.left}>
+                            <Image
+                                src={`${post.downloadUrl}`}
+                                // この数字を大きくする分には比率は崩れなさそう
+                                width={1000}
+                                height={1000}
+                                objectFit="contain"
+                                alt={`${post.title}`}
+                                className={styles.img}
+                            />
+                        </div>
+                        <div className={styles.right}>
+                            <p>{post.title}</p>
+                            <p>
+                                {post.createdAt
+                                    .toLocaleString('ja-JP')
+                                    .toString()}
+                            </p>
+                            <p>投稿者:{post.authorName}</p>
+                            <LikeButton postId={post.id} iconSize="45" />
+                        </div>
+                    </Box>
                     <div>
                         <Text mb="8px">【コメント一覧】</Text>
                         {comments.map((comment) => {
