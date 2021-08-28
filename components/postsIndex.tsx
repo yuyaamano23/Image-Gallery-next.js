@@ -24,6 +24,13 @@ const PostsIndex: FC = () => {
     const [isReloaded, setIsReloaded] = useState<boolean>(true);
     const cardBg = useColorModeValue('white', 'gray.800');
 
+    let [value, setValue] = React.useState('');
+
+    let handleInputChange = (e) => {
+        let inputValue = e.target.value;
+        setValue(inputValue);
+    };
+
     useEffect(() => {
         let isMounted = true;
         async function loadPosts() {
@@ -87,6 +94,8 @@ const PostsIndex: FC = () => {
                             children={<Search2Icon color="black" />}
                         />
                         <Input
+                            value={value}
+                            onChange={handleInputChange}
                             placeholder="search words"
                             color="black"
                             bg="gray.300"
@@ -95,6 +104,7 @@ const PostsIndex: FC = () => {
                     </InputGroup>
                 </Stack>
             </div>
+            <p>{value}</p>
             <h1 className={styles.h1}>投稿一覧ページ</h1>
 
             <div className={styles.flex}>
