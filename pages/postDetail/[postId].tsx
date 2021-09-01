@@ -103,7 +103,7 @@ const PostDetail: FC = () => {
                 .collection('users')
                 .doc(user.uid);
 
-            // postIdのref型をstoreへ保存
+            // postIdのref型をstoreへ保存する
             const postRef = firebase
                 .firestore()
                 .collection('posts')
